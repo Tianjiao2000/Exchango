@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'CurrencyPage.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -9,6 +10,20 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedIndex = 0;
+
+  // define page list
+  final List<Widget> _pages = [
+    CurrencyPage(),
+    Text(
+      'Exchange Page',
+      style: optionStyle,
+    ),
+    Text(
+      'Account Page',
+      style: optionStyle,
+    ),
+  ];
+
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
@@ -21,12 +36,13 @@ class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          // title: const Text('BottomNavigationBar Sample'),
-          ),
-      body: Center(
-          // child: _widgetOptions.elementAt(_selectedIndex),
-          ),
+      // appBar: AppBar(
+      //   title: const Text('BottomNavigationBar Sample'),
+      // ),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
