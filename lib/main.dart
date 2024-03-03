@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pages/navigation.dart';
+import 'navigation.dart';
 // import 'pages/CurrencyPage.dart';
 
 void main() => runApp(const MyApp());

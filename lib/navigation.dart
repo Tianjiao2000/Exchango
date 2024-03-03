@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'CurrencyPage.dart';
+import 'CurrencyPage/CurrencyPage.dart';
+import 'AccountPage/AccountPage.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -18,6 +19,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       'Exchange Page',
       style: optionStyle,
     ),
+    AccountPage(),
     Text(
       'Account Page',
       style: optionStyle,
