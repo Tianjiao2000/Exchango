@@ -12,7 +12,7 @@ class CurrencyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.fromLTRB(25.0, 80.0, 25.0, 25.0),
         child: Row(
           children: <Widget>[
             // First currency input
