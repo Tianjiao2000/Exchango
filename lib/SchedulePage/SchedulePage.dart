@@ -1,78 +1,129 @@
 import 'package:flutter/material.dart';
 
+void main() => runApp(MaterialApp(home: SchedulePage()));
+
 class SchedulePage extends StatefulWidget {
   @override
   _SchedulePageState createState() => _SchedulePageState();
 }
 
 class _SchedulePageState extends State<SchedulePage> {
-  // Updated schedule items to include a 'done' status
   final List<Map<String, dynamic>> schedules = [
-    {'event': 'Morning Walk', 'time': '7:00 AM', 'done': true},
-    {'event': 'Feeding Time', 'time': '8:00 AM', 'done': false},
-    {'event': 'Playtime', 'time': '2:00 PM', 'done': false},
+    {
+      'event': 'Morning Walk',
+      'time': '7:00 AM',
+      'done': true,
+      'type': 'outdoor',
+      'location': 'Park'
+    },
+    {
+      'event': 'Feeding Time',
+      'time': '8:00 AM',
+      'done': false,
+      'type': 'food',
+      'location': 'Kitchen'
+    },
+    {
+      'event': 'Playtime',
+      'time': '2:00 PM',
+      'done': false,
+      'type': 'play',
+      'location': 'Living Room'
+    },
   ];
 
-  void toggleDone(int index) {
-    setState(() {
-      schedules[index]['done'] = !schedules[index]['done'];
-    });
+  Color getTypeColor(String type) {
+    switch (type) {
+      case 'play':
+        return Colors.orange;
+      case 'hospital':
+        return Colors.green[800]!;
+      case 'outdoor':
+        return Colors.pink;
+      case 'food':
+        return Colors.blue[800]!;
+      default:
+        return Colors.grey; // Default color if type not recognized
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(''),
-      ),
+      appBar: AppBar(title: Text('PetSync')),
+      backgroundColor:
+          Colors.grey[200], // Set the background color to light grey
       body: GridView.builder(
         padding: EdgeInsets.all(10),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 1, // Adjust the number of columns
+          crossAxisCount: 1,
           crossAxisSpacing: 5,
-          mainAxisSpacing: 9, // Adjust the padding between blocks
-          childAspectRatio: 8 / 2,
+          mainAxisSpacing: 9,
+          childAspectRatio: 8 / 3,
         ),
         itemCount: schedules.length,
         itemBuilder: (context, index) {
+          Map<String, dynamic> schedule = schedules[index];
           return Container(
-            padding: EdgeInsets.symmetric(
-                horizontal: 15), // Add padding inside the container
+            padding: EdgeInsets.all(15),
             decoration: BoxDecoration(
-              color: Colors.lightBlue[100],
+              color: Colors.white, // Block background color
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      schedules[index]['event']!,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                Row(
+                  children: <Widget>[
+                    // Colored circle representing the event type
+                    Container(
+                      width: 12,
+                      height: 12,
+                      decoration: BoxDecoration(
+                        color: getTypeColor(schedule['type'] ?? 'default'),
+                        shape: BoxShape.circle,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(width: 8),
                     Text(
-                      schedules[index]['time']!,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontStyle: FontStyle.italic,
-                      ),
+                      schedule['event'] ?? 'Event',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
-                // Icon represent if the task been done
-                IconButton(
-                  icon: Icon(schedules[index]['done']
-                      ? Icons.check_circle
-                      : Icons.radio_button_unchecked),
-                  color: schedules[index]['done'] ? Colors.green : Colors.grey,
-                  onPressed: () => toggleDone(index),
+                Row(
+                  children: [
+                    Icon(Icons.access_time, size: 16),
+                    SizedBox(width: 5),
+                    Text(
+                      schedule['time'] ?? 'Time',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Icon(Icons.location_on, size: 16),
+                    SizedBox(width: 5),
+                    Text(
+                      schedule['location'] ?? 'No location specified',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+                Spacer(),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: IconButton(
+                    icon: Icon(schedule['done']
+                        ? Icons.check_circle
+                        : Icons.radio_button_unchecked),
+                    color: schedule['done'] ? Colors.green : Colors.grey,
+                    onPressed: () =>
+                        setState(() => schedule['done'] = !schedule['done']),
+                  ),
                 ),
               ],
             ),
@@ -80,12 +131,9 @@ class _SchedulePageState extends State<SchedulePage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Placeholder for adding a new schedule
-        },
-        child: Icon(Icons.add),
-        tooltip: 'Add New Schedule',
-      ),
+          onPressed: () {},
+          child: Icon(Icons.add),
+          tooltip: 'Add New Schedule'),
     );
   }
 }
