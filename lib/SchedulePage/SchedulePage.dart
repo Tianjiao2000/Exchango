@@ -30,6 +30,13 @@ class _SchedulePageState extends State<SchedulePage> {
       'type': 'play',
       'location': 'Living Room'
     },
+    {
+      'event': 'Hospital',
+      'time': '4:00 PM',
+      'done': false,
+      'type': 'hospital',
+      'location': 'Central Hospital'
+    },
   ];
 
   Color getTypeColor(String type) {
@@ -54,18 +61,19 @@ class _SchedulePageState extends State<SchedulePage> {
       backgroundColor:
           Colors.grey[200], // Set the background color to light grey
       body: GridView.builder(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 1,
           crossAxisSpacing: 5,
           mainAxisSpacing: 9,
-          childAspectRatio: 8 / 3,
+          childAspectRatio: 9 / 3,
         ),
         itemCount: schedules.length,
         itemBuilder: (context, index) {
           Map<String, dynamic> schedule = schedules[index];
           return Container(
-            padding: EdgeInsets.all(15),
+            // padding: EdgeInsets.all(15),
+            padding: EdgeInsets.symmetric(vertical: 22, horizontal: 15),
             decoration: BoxDecoration(
               color: Colors.white, // Block background color
               borderRadius: BorderRadius.circular(10),
@@ -74,24 +82,40 @@ class _SchedulePageState extends State<SchedulePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    // Colored circle representing the event type
-                    Container(
-                      width: 12,
-                      height: 12,
-                      decoration: BoxDecoration(
-                        color: getTypeColor(schedule['type'] ?? 'default'),
-                        shape: BoxShape.circle,
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          // Colored circle representing the event type
+                          Container(
+                            width: 12,
+                            height: 12,
+                            decoration: BoxDecoration(
+                              color:
+                                  getTypeColor(schedule['type'] ?? 'default'),
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          Text(
+                            schedule['event'] ?? 'Event',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
-                    ),
-                    SizedBox(width: 8),
-                    Text(
-                      schedule['event'] ?? 'Event',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                      IconButton(
+                        icon: Icon(schedule['done']
+                            ? Icons.check_circle
+                            : Icons.radio_button_unchecked),
+                        color: schedule['done'] ? Colors.green : Colors.grey,
+                        onPressed: () => setState(() => schedules[index]
+                            ['done'] = !schedules[index]['done']),
+                      ),
+                    ],
+                  ),
                 ),
                 Row(
                   children: [
@@ -112,18 +136,6 @@ class _SchedulePageState extends State<SchedulePage> {
                       style: TextStyle(fontSize: 16),
                     ),
                   ],
-                ),
-                Spacer(),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: IconButton(
-                    icon: Icon(schedule['done']
-                        ? Icons.check_circle
-                        : Icons.radio_button_unchecked),
-                    color: schedule['done'] ? Colors.green : Colors.grey,
-                    onPressed: () =>
-                        setState(() => schedule['done'] = !schedule['done']),
-                  ),
                 ),
               ],
             ),
