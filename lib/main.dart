@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'navigation.dart';
-// import 'pages/CurrencyPage.dart';
-
-// import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart'; // 用于Firebase初始化的自动生成的文件
-
+import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-// void main() => runApp(const MyApp());
+import 'AccountPage/AccountPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,16 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      // home: BottomNavigation(),
-      home: BottomNavigation(
-        
-      ),
-    );
+        home: BottomNavigation());
   }
 }
-
-
-// import 'package:flutter/material.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'CurrencyPage/CurrencyPage.dart';
-import 'AccountPage/AccountPage.dart';
+import 'SchedulePage/SchedulePage.dart';
+import 'ActivityPage/ActivityPage.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -13,18 +13,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedIndex = 0;
 
   // define page list
-  final List<Widget> _pages = [
-    CurrencyPage(),
-    Text(
-      'Exchange Page',
-      style: optionStyle,
-    ),
-    AccountPage(),
-    Text(
-      'Account Page',
-      style: optionStyle,
-    ),
-  ];
+  final List<Widget> _pages = [ActivityPage(), SchedulePage()];
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -38,9 +27,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('BottomNavigationBar Sample'),
-      // ),
       body: IndexedStack(
         index: _selectedIndex,
         children: _pages,
@@ -48,16 +34,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.currency_exchange),
-            label: 'Currency',
+            icon: Icon(Icons.pets),
+            label: 'Activity',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.location_searching),
-            label: 'Exchange',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.manage_accounts),
-            label: 'Account',
+            icon: Icon(Icons.schedule),
+            label: 'Schedule',
           ),
         ],
         currentIndex: _selectedIndex,

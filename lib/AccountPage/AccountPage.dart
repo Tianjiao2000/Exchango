@@ -2,67 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../firebase_options.dart';
+import '../navigation.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Login Screen',
-      home: AccountPage(),
-    );
-  }
-}
-
-// class AccountPage extends StatelessWidget {
-//   final TextEditingController emailController = TextEditingController();
-//   final TextEditingController passwordController = TextEditingController();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Login'),
-//       ),
-//       body: Column(
-//         children: [
-//           TextField(
-//             controller: emailController,
-//             decoration: InputDecoration(labelText: 'Email'),
-//           ),
-//           TextField(
-//             controller: passwordController,
-//             decoration: InputDecoration(labelText: 'Password'),
-//             obscureText: true,
-//           ),
-//           ElevatedButton(
-//             onPressed: () {
-//               _login(emailController.text, passwordController.text);
-//             },
-//             child: Text('Login'),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   void _login(String email, String password) async {
-//     try {
-//       await FirebaseAuth.instance.signInWithEmailAndPassword(
-//         email: email,
-//         password: password,
-//       );
-//       // Login successful
-//       print("Login successful");
-//     } catch (e) {
-//       // Login failed
-//       print("Login failed: $e");
-//     }
-//   }
-// }
 class AccountPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -113,7 +54,10 @@ class AccountPage extends StatelessWidget {
         password: password,
       );
       // Login successful
-      print("Login successful");
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const BottomNavigation()),
+      );
     } catch (e) {
       // Login failed
       print("Login failed: $e");
@@ -127,7 +71,10 @@ class AccountPage extends StatelessWidget {
         password: password,
       );
       // Signup successful
-      print("Signup successful");
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const BottomNavigation()),
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
