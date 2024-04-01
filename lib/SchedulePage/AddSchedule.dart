@@ -32,8 +32,8 @@ class _AddScheduleState extends State<AddSchedule> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add New Schedule'),
-        backgroundColor:
-            Color.fromARGB(255, 231, 218, 249), // Customize with your color
+        // backgroundColor:
+        //     Color.fromARGB(255, 231, 218, 249), // Customize with your color
       ),
       body: SingleChildScrollView(
         // Wrap with SingleChildScrollView to avoid overflow when keyboard shows

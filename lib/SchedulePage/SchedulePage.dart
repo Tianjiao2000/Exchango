@@ -69,7 +69,10 @@ class _SchedulePageState extends State<SchedulePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('PetSync')),
+      appBar: AppBar(
+        title: Text('Schedule'),
+        // backgroundColor: Color.fromARGB(255, 231, 218, 249),
+      ),
       backgroundColor: Colors.grey[200],
       body: GridView.builder(
         padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
