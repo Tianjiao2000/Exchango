@@ -30,8 +30,7 @@ class NotificationSchedule {
         InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsDarwin,
-      macOS:
-          initializationSettingsDarwin, // Optional: if your app targets macOS as well
+      macOS: initializationSettingsDarwin,
     );
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
