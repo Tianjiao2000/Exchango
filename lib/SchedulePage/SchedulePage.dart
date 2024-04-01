@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
-void main() => runApp(MaterialApp(home: SchedulePage()));
+import 'schedule.dart';
+import 'package:intl/intl.dart';
+import 'AddSchedule.dart';
 
 class SchedulePage extends StatefulWidget {
   @override
@@ -8,37 +9,6 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _SchedulePageState extends State<SchedulePage> {
-  final List<Map<String, dynamic>> schedules = [
-    {
-      'event': 'Morning Walk',
-      'time': '7:00 AM',
-      'done': true,
-      'type': 'outdoor',
-      'location': 'Park'
-    },
-    {
-      'event': 'Feeding Time',
-      'time': '8:00 AM',
-      'done': false,
-      'type': 'food',
-      'location': 'Kitchen'
-    },
-    {
-      'event': 'Playtime',
-      'time': '2:00 PM',
-      'done': false,
-      'type': 'play',
-      'location': 'Living Room'
-    },
-    {
-      'event': 'Hospital',
-      'time': '4:00 PM',
-      'done': false,
-      'type': 'hospital',
-      'location': 'Central Hospital'
-    },
-  ];
-
   Color getTypeColor(String type) {
     switch (type) {
       case 'play':
@@ -50,16 +20,30 @@ class _SchedulePageState extends State<SchedulePage> {
       case 'food':
         return Colors.blue[800]!;
       default:
-        return Colors.grey; // Default color if type not recognized
+        return Colors.grey;
     }
+  }
+
+  List<Map<String, dynamic>> sortedSchedules = [];
+
+  @override
+  void initState() {
+    super.initState();
+    sortedSchedules = List.from(schedules);
+    sortedSchedules
+        .sort((a, b) => _getTime(a['time']).compareTo(_getTime(b['time'])));
+  }
+
+  DateTime _getTime(String time) {
+    final format = DateFormat.Hm();
+    return format.parse(time);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('PetSync')),
-      backgroundColor:
-          Colors.grey[200], // Set the background color to light grey
+      backgroundColor: Colors.grey[200],
       body: GridView.builder(
         padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -68,14 +52,14 @@ class _SchedulePageState extends State<SchedulePage> {
           mainAxisSpacing: 9,
           childAspectRatio: 9 / 3,
         ),
-        itemCount: schedules.length,
+        itemCount: sortedSchedules.length,
         itemBuilder: (context, index) {
-          Map<String, dynamic> schedule = schedules[index];
+          Map<String, dynamic> schedule = sortedSchedules[index];
           return Container(
             // padding: EdgeInsets.all(15),
             padding: EdgeInsets.symmetric(vertical: 22, horizontal: 15),
             decoration: BoxDecoration(
-              color: Colors.white, // Block background color
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
@@ -111,9 +95,45 @@ class _SchedulePageState extends State<SchedulePage> {
                             ? Icons.check_circle
                             : Icons.radio_button_unchecked),
                         color: schedule['done'] ? Colors.green : Colors.grey,
-                        onPressed: () => setState(() => schedules[index]
-                            ['done'] = !schedules[index]['done']),
+                        onPressed: () => setState(() => sortedSchedules[index]
+                            ['done'] = !sortedSchedules[index]['done']),
                       ),
+                      IconButton(
+                        icon: Icon(Icons.delete, color: Colors.red),
+                        onPressed: () {
+                          // Confirm deletion with the user before removing the item
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Delete Schedule'),
+                                content: Text(
+                                    'Are you sure you want to delete this schedule?'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text('Cancel'),
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pop(); // Close the dialog
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text('Delete'),
+                                    onPressed: () {
+                                      // Remove the schedule from the list and close the dialog
+                                      setState(() {
+                                        sortedSchedules.removeAt(index);
+                                      });
+                                      Navigator.of(context)
+                                          .pop(); // Close the dialog
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      )
                     ],
                   ),
                 ),
@@ -143,9 +163,26 @@ class _SchedulePageState extends State<SchedulePage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: Icon(Icons.add),
-          tooltip: 'Add New Schedule'),
+        onPressed: () async {
+          // Open AddSchedule as a new page allow user add event
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddSchedule()),
+          );
+
+          // If result is not null, add it to your schedule list and sort
+          if (result != null) {
+            setState(() {
+              sortedSchedules.add(result);
+              sortedSchedules.sort(
+                  (a, b) => _getTime(a['time']).compareTo(_getTime(b['time'])));
+            });
+          }
+        },
+        child: Icon(Icons.add),
+        tooltip: 'Add New Schedule',
+        // backgroundColor: Color.fromARGB(255, 222, 138, 195),
+      ),
     );
   }
 }
