@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'schedule.dart';
 import 'package:intl/intl.dart';
 import 'AddSchedule.dart';
+import '../notification/notification_schedule.dart';
 
 class SchedulePage extends StatefulWidget {
   @override
@@ -29,9 +30,35 @@ class _SchedulePageState extends State<SchedulePage> {
   @override
   void initState() {
     super.initState();
+    NotificationSchedule().initNotification();
+    schedulePresetNotifications();
     sortedSchedules = List.from(schedules);
     sortedSchedules
         .sort((a, b) => _getTime(a['time']).compareTo(_getTime(b['time'])));
+  }
+
+  void schedulePresetNotifications() {
+    for (var schedule in schedules) {
+      DateTime scheduleDateTime = _getDateTimeForSchedule(schedule['time']);
+      if (scheduleDateTime.isAfter(DateTime.now())) {
+        NotificationSchedule().scheduleNotification(
+          // Generate a unique ID for each schedule
+          schedules.indexOf(schedule),
+          schedule['event'],
+          "It's time for ${schedule['event']} at ${schedule['location']}",
+          scheduleDateTime,
+        );
+      }
+    }
+  }
+
+  DateTime _getDateTimeForSchedule(String time) {
+    final format =
+        DateFormat.Hm(); // Adjust the format if your input format changes
+    final today = DateTime.now();
+    final parsedTime = format.parse(time);
+    return DateTime(
+        today.year, today.month, today.day, parsedTime.hour, parsedTime.minute);
   }
 
   DateTime _getTime(String time) {
@@ -191,6 +218,16 @@ class _SchedulePageState extends State<SchedulePage> {
               sortedSchedules.sort(
                   (a, b) => _getTime(a['time']).compareTo(_getTime(b['time'])));
             });
+            DateTime scheduleDateTime = _getDateTimeForSchedule(result['time']);
+            if (scheduleDateTime.isAfter(DateTime.now())) {
+              NotificationSchedule().scheduleNotification(
+                sortedSchedules.indexOf(
+                    result), // Assuming this is unique enough for your case
+                result['event'],
+                "It's time for ${result['event']} at ${result['location']}",
+                scheduleDateTime,
+              );
+            }
           }
         },
         child: Icon(Icons.add),

@@ -8,7 +8,7 @@ final List<Map<String, dynamic>> schedules = [
   },
   {
     'event': 'Feeding Time',
-    'time': '17:00',
+    'time': '19:00',
     'done': false,
     'type': 'food',
     'location': 'Kitchen'
