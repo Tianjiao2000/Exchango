@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'navigation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'AccountPage/AccountPage.dart';
+import 'StartPage/AccountPage.dart';
 import 'notification/notification_schedule.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -37,5 +37,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(home: BottomNavigation());
+    // return MaterialApp(home: AccountPage());
   }
 }
