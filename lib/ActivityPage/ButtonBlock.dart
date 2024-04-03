@@ -2,11 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'ButtonDetailsPage.dart';
 import 'button_info.dart';
+import 'mqtt_subscriber.dart';
 
-class ButtonBlock extends StatelessWidget {
+class ButtonBlock extends StatefulWidget {
   final List<Map<String, dynamic>> sortedButtonData;
 
   ButtonBlock({Key? key, required this.sortedButtonData}) : super(key: key);
+
+  @override
+  _ButtonBlockState createState() => _ButtonBlockState();
+}
+
+class _ButtonBlockState extends State<ButtonBlock> {
+  List<Map<String, dynamic>> sortedButtonData = [];
+
+  // ButtonBlock({Key? key, required this.sortedButtonData}) : super(key: key);
+  final MQTTService _mqttService = MQTTService();
+  String message = 'Waiting for MQTT messages...';
+  @override
+  void initState() {
+    super.initState();
+    sortedButtonData = widget.sortedButtonData;
+    _mqttService.initializeMQTTClient();
+    _mqttService.messageStream.listen((message) {
+      print(message);
+      if (message.contains('Button')) {
+        _addButtonData('Food');
+      }
+    });
+  }
+
+  void _addButtonData(String name) {
+    final now = DateTime.now();
+    setState(() {
+      sortedButtonData.insert(0, {
+        'name': name,
+        'datetime': now,
+      });
+    });
+    // print(sortedButtonData);
+  }
 
   @override
   Widget build(BuildContext context) {
