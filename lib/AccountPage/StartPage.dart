@@ -7,7 +7,7 @@ import 'PetInfo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../global.dart';
 
-class AccountPage extends StatelessWidget {
+class StartPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -133,8 +133,7 @@ class AccountPage extends StatelessWidget {
       if (petType.isNotEmpty) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-              builder: (context) => const BottomNavigation()),
+          MaterialPageRoute(builder: (context) => const BottomNavigation()),
         );
       } else {
         Navigator.pushReplacement(

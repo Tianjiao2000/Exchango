@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'StartPage.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -24,6 +25,44 @@ class _AccountPageState extends State<AccountPage> {
         Global.userAvatarUrl = image.path;
       });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadPetInfo();
+  }
+
+  Future<void> loadPetInfo() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String petType = prefs
+            .getString('${FirebaseAuth.instance.currentUser?.email}_petType') ??
+        'dog';
+    final String petName = prefs
+            .getString('${FirebaseAuth.instance.currentUser?.email}_petName') ??
+        '';
+
+    // 更新全局变量
+    Global.petType = petType;
+    Global.petName = petName;
+
+    // 更新文本控制器
+    _petTypeController.text = petType;
+    _petNameController.text = petName;
+    print(Global.petName);
+  }
+
+  Future<void> savePetInfo() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // 保存宠物类型和名字
+    await prefs.setString('${FirebaseAuth.instance.currentUser?.email}_petType',
+        _petTypeController.text);
+    await prefs.setString('${FirebaseAuth.instance.currentUser?.email}_petName',
+        _petNameController.text);
+
+    // 更新全局变量
+    Global.petType = _petTypeController.text;
+    Global.petName = _petNameController.text;
   }
 
   @override
@@ -54,9 +93,23 @@ class _AccountPageState extends State<AccountPage> {
             onChanged: (value) => Global.petName = value,
           ),
           ElevatedButton(
+            onPressed: () async {
+              await savePetInfo(); // 调用保存方法
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Pet information saved successfully!')),
+              );
+            },
+            child: Text('Save'),
+            style: ElevatedButton.styleFrom(primary: Colors.green),
+          ),
+          ElevatedButton(
             onPressed: () {
               FirebaseAuth.instance.signOut();
-              Navigator.pushReplacementNamed(context, '/loginPage');
+              // Navigator.pushReplacementNamed(context, '/StartPage');
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => StartPage()),
+              );
             },
             child: Text('Logout'),
           ),
