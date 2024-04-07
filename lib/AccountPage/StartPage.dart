@@ -123,24 +123,10 @@ class StartPage extends StatelessWidget {
       }
 
       // Email is verified, proceed with login
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => PetInfoPage()),
-      // );
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String petType =
-          prefs.getString('${Global.userEmail}_petType') ?? '';
-      if (petType.isNotEmpty) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const BottomNavigation()),
-        );
-      } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => PetInfoPage()),
-        );
-      }
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => BottomNavigation()),
+      );
     } on FirebaseAuthException catch (e) {
       String errorMessage =
           'An error occurred. Please try again.'; // Default error message

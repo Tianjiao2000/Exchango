@@ -35,21 +35,20 @@ class _AccountPageState extends State<AccountPage> {
 
   Future<void> loadPetInfo() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String petType = prefs
-            .getString('${FirebaseAuth.instance.currentUser?.email}_petType') ??
-        'dog';
-    final String petName = prefs
-            .getString('${FirebaseAuth.instance.currentUser?.email}_petName') ??
-        '';
+    String email = FirebaseAuth.instance.currentUser?.email ?? '';
 
-    // 更新全局变量
-    Global.petType = petType;
-    Global.petName = petName;
-
-    // 更新文本控制器
-    _petTypeController.text = petType;
-    _petNameController.text = petName;
-    print(Global.petName);
+    if (prefs.containsKey('${email}_petType') &&
+        prefs.containsKey('${email}_petName')) {
+      Global.petType = prefs.getString('${email}_petType') ?? '';
+      Global.petName = prefs.getString('${email}_petName') ?? '';
+      _petTypeController.text = Global.petType;
+      _petNameController.text = Global.petName;
+    } else {
+      // 这是一个新用户或者之前没有保存过信息的用户
+      // 你可以设置一些默认值，或者什么也不做
+      _petTypeController.text = '';
+      _petNameController.text = '';
+    }
   }
 
   Future<void> savePetInfo() async {
@@ -63,6 +62,22 @@ class _AccountPageState extends State<AccountPage> {
     // 更新全局变量
     Global.petType = _petTypeController.text;
     Global.petName = _petNameController.text;
+  }
+
+  Future<void> clearUserInfo() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('userAvatarUrl');
+    await prefs.remove('${FirebaseAuth.instance.currentUser?.email}_petType');
+    await prefs.remove('${FirebaseAuth.instance.currentUser?.email}_petName');
+  }
+
+  void _logout() async {
+    await FirebaseAuth.instance.signOut();
+    await clearUserInfo(); // 清除用户信息
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => StartPage()),
+    );
   }
 
   @override
@@ -104,6 +119,7 @@ class _AccountPageState extends State<AccountPage> {
           ),
           ElevatedButton(
             onPressed: () {
+              _logout();
               FirebaseAuth.instance.signOut();
               // Navigator.pushReplacementNamed(context, '/StartPage');
               Navigator.pushReplacement(

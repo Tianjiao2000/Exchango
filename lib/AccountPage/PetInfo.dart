@@ -10,8 +10,10 @@ class PetInfoPage extends StatefulWidget {
 
 class _PetInfoPageState extends State<PetInfoPage> {
   String selectedPet = Global.petType; // 使用全局变量初始化
-  final TextEditingController _customPetController = TextEditingController(text: Global.petType == 'custom' ? Global.petName : '');
-  final TextEditingController _petNameController = TextEditingController(text: Global.petName);
+  final TextEditingController _customPetController = TextEditingController(
+      text: Global.petType == 'custom' ? Global.petName : '');
+  final TextEditingController _petNameController =
+      TextEditingController(text: Global.petName);
 
   @override
   void initState() {
@@ -23,19 +25,22 @@ class _PetInfoPageState extends State<PetInfoPage> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('${Global.userEmail}_petType',
         selectedPet == 'custom' ? _customPetController.text : selectedPet);
-    await prefs.setString('${Global.userEmail}_petName', _petNameController.text);
+    await prefs.setString(
+        '${Global.userEmail}_petName', _petNameController.text);
   }
 
   Future<void> loadPetInfo() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      selectedPet = prefs.getString('${Global.userEmail}_petType') ?? 'dog';
+      selectedPet = prefs.getString('${Global.userEmail}_petType') ?? '';
       Global.petType = selectedPet;
       // 如果选中的是custom，从_customPetController读取类型
       if (selectedPet == 'custom') {
-        _customPetController.text = prefs.getString('${Global.userEmail}_petType') ?? '';
+        _customPetController.text =
+            prefs.getString('${Global.userEmail}_petType') ?? '';
       }
-      _petNameController.text = prefs.getString('${Global.userEmail}_petName') ?? '';
+      _petNameController.text =
+          prefs.getString('${Global.userEmail}_petName') ?? '';
       Global.petName = _petNameController.text;
     });
   }
