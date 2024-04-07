@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'SchedulePage/SchedulePage.dart';
 import 'ActivityPage/ActivityPage.dart';
+import 'AccountPage/AccountPage.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -13,7 +14,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedIndex = 0;
 
   // define page list
-  final List<Widget> _pages = [ActivityPage(), SchedulePage()];
+  final List<Widget> _pages = [ActivityPage(), SchedulePage(), AccountPage()];
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -40,6 +41,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
           BottomNavigationBarItem(
             icon: Icon(Icons.schedule),
             label: 'Schedule',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.manage_accounts),
+            label: 'Account',
           ),
         ],
         currentIndex: _selectedIndex,
