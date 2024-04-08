@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../global.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'StartPage.dart';
+import '../global.dart'; // 确保已正确导入Global类
+import 'StartPage.dart'; // 确保已正确导入StartPage类
 
 class AccountPage extends StatefulWidget {
   @override
@@ -83,53 +83,87 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Account')),
-      body: Column(
-        children: [
-          GestureDetector(
-            onTap: _pickImage,
-            child: CircleAvatar(
-              radius: 60,
-              backgroundImage: Global.userAvatarUrl.isNotEmpty
-                  ? FileImage(File(Global.userAvatarUrl))
-                  : null,
-              child: Icon(Icons.camera_alt),
+      appBar: AppBar(
+        title: Text(
+          'Account',
+          style: TextStyle(
+              fontSize: 22.0, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        backgroundColor: Color.fromARGB(255, 255, 182, 47),
+      ),
+      backgroundColor: Color.fromARGB(255, 255, 247, 229),
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          children: [
+            GestureDetector(
+              onTap: _pickImage,
+              child: CircleAvatar(
+                radius: 60,
+                backgroundImage: Global.userAvatarUrl.isNotEmpty
+                    ? FileImage(File(Global.userAvatarUrl))
+                    : null,
+                child: Icon(Icons.camera_alt, color: Colors.white),
+                backgroundColor: Colors.grey[300],
+              ),
             ),
-          ),
-          Text('Email: ${Global.userEmail}'),
-          TextField(
-            controller: _petTypeController,
-            decoration: InputDecoration(labelText: 'Pet Type'),
-            onChanged: (value) => Global.petType = value,
-          ),
-          TextField(
-            controller: _petNameController,
-            decoration: InputDecoration(labelText: 'Pet Name'),
-            onChanged: (value) => Global.petName = value,
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              await savePetInfo(); // 调用保存方法
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Pet information saved successfully!')),
-              );
-            },
-            child: Text('Save'),
-            style: ElevatedButton.styleFrom(primary: Colors.green),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              _logout();
-              FirebaseAuth.instance.signOut();
-              // Navigator.pushReplacementNamed(context, '/StartPage');
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => StartPage()),
-              );
-            },
-            child: Text('Logout'),
-          ),
-        ],
+            SizedBox(height: 15),
+            Text('Email: ${Global.userEmail}', style: TextStyle(fontSize: 16)),
+            SizedBox(height: 10),
+            TextField(
+              controller: _petTypeController,
+              decoration: InputDecoration(
+                labelText: 'Pet Type',
+                border: OutlineInputBorder(),
+                labelStyle: TextStyle(color: Colors.deepOrange),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.deepOrange),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.deepOrange, width: 2),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            TextField(
+              controller: _petNameController,
+              decoration: InputDecoration(
+                labelText: 'Pet Name',
+                border: OutlineInputBorder(),
+                labelStyle: TextStyle(color: Colors.deepOrange),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.deepOrange),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.deepOrange, width: 2),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                await savePetInfo(); // 调用保存方法
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                      content: Text('Pet information saved successfully!')),
+                );
+              },
+              child: Text('Save'),
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromARGB(255, 255, 182, 47),
+                textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: _logout,
+              child: Text('Logout'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.red,
+                textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

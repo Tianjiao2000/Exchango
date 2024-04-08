@@ -19,7 +19,7 @@ class ActivityPage extends StatelessWidget {
           style: TextStyle(
               fontSize: 22.0, fontWeight: FontWeight.bold, color: Colors.white),
         ),
-        backgroundColor: Color.fromARGB(255, 255, 184, 51),
+        backgroundColor: Color.fromARGB(255, 255, 182, 47),
       ),
       backgroundColor: Color.fromARGB(255, 255, 247, 229),
       body: Padding(

@@ -70,10 +70,14 @@ class _SchedulePageState extends State<SchedulePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Schedule'),
-        backgroundColor: Color.fromARGB(255, 255, 234, 190),
+        title: Text(
+          'Schedule',
+          style: TextStyle(
+              fontSize: 22.0, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        backgroundColor: Color.fromARGB(255, 255, 182, 47),
       ),
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Color.fromARGB(255, 255, 247, 229),
       body: GridView.builder(
         padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -90,6 +94,14 @@ class _SchedulePageState extends State<SchedulePage> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
+                ),
+              ],
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -235,7 +247,7 @@ class _SchedulePageState extends State<SchedulePage> {
         },
         child: Icon(Icons.add),
         tooltip: 'Add New Schedule',
-        backgroundColor: Color(0xFFF6ae2d),
+        backgroundColor: Color.fromARGB(255, 255, 182, 47),
       ),
     );
   }

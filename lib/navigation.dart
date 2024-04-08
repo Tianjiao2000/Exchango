@@ -36,7 +36,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.pets),
-            label: 'Activity',
+            label: 'Monitor',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.schedule),

@@ -55,7 +55,7 @@ class _SoundBlockState extends State<SoundBlock> {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: Color(0xFFF06236),
+              color: Color(0xFFF27f0c),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),

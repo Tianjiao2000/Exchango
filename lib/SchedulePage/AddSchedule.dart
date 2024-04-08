@@ -31,10 +31,15 @@ class _AddScheduleState extends State<AddSchedule> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Add New Schedule'),
-          backgroundColor: Color.fromARGB(255, 255, 234, 190)
-          //     Color.fromARGB(255, 231, 218, 249), // Customize with your color
-          ),
+        title: Text(
+          'Add New Schedule',
+          style: TextStyle(
+              fontSize: 22.0, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        backgroundColor: Color.fromARGB(255, 255, 182, 47),
+        //     Color.fromARGB(255, 231, 218, 249), // Customize with your color
+      ),
+      backgroundColor: Color.fromARGB(255, 255, 247, 229),
       body: SingleChildScrollView(
         // Wrap with SingleChildScrollView to avoid overflow when keyboard shows
         child: Padding(
@@ -106,7 +111,7 @@ class _AddScheduleState extends State<AddSchedule> {
                 SizedBox(height: 24), // Add space before the button
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xFFF6ae2d), // Button color
+                    primary: Color.fromARGB(255, 255, 182, 47), // Button color
                     onPrimary: Color.fromARGB(255, 19, 19, 19), // Text color
                     padding:
                         EdgeInsets.symmetric(vertical: 16), // Button padding
