@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
 import 'mqtt_subscriber.dart';
 
-class TempBlock extends StatefulWidget {
+class SoundBlock extends StatefulWidget {
   @override
-  _TempBlockState createState() => _TempBlockState();
+  _SoundBlockState createState() => _SoundBlockState();
 }
 
-class _TempBlockState extends State<TempBlock> {
+class _SoundBlockState extends State<SoundBlock> {
   final MQTTService _mqttService = MQTTService();
-  String temperature = 'Waiting for temperature...';
+  String sound = 'Waiting for sound level...';
 
   @override
   void initState() {
     super.initState();
-    // get the mqtt info by message content
     _mqttService.initializeMQTTClient();
     _mqttService.messageStream.listen((message) {
-      print(message);
-      if (message.contains('Temperature')) {
-        final parts = message.split('Temperature = ');
-        // get the temp value
+      print(message); // For debugging
+      if (message.contains('Sound')) {
+        // split sound string to get the value
+        final parts = message.split('Sound level: ');
         if (parts.length > 1) {
-          final tempValue = parts[1];
+          final soundValue = parts[1];
           setState(() {
-            temperature = tempValue;
+            sound = soundValue;
           });
         }
       }
@@ -67,7 +66,7 @@ class _TempBlockState extends State<TempBlock> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Temperature',
+                  'Sound Level',
                   style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
@@ -80,7 +79,7 @@ class _TempBlockState extends State<TempBlock> {
           Expanded(
             child: Center(
               child: Text(
-                temperature,
+                sound,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

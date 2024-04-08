@@ -5,7 +5,13 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 class MQTTService {
   final String broker = 'test.mosquitto.org';
   final String clientIdentifier = 'flutter_mqtt_client';
-  final List<String> topics = ['button_press_topic', 'temperature', 'humidity'];
+  final List<String> topics = [
+    'button_press_topic',
+    'temperature',
+    'humidity',
+    'sound',
+    'light'
+  ];
   late MqttServerClient client;
   final StreamController<String> _messageController =
       StreamController.broadcast();

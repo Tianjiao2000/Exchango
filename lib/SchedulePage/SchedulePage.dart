@@ -71,7 +71,7 @@ class _SchedulePageState extends State<SchedulePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Schedule'),
-        // backgroundColor: Color.fromARGB(255, 231, 218, 249),
+        backgroundColor: Color.fromARGB(255, 255, 234, 190),
       ),
       backgroundColor: Colors.grey[200],
       body: GridView.builder(
@@ -235,7 +235,7 @@ class _SchedulePageState extends State<SchedulePage> {
         },
         child: Icon(Icons.add),
         tooltip: 'Add New Schedule',
-        // backgroundColor: Color.fromARGB(255, 222, 138, 195),
+        backgroundColor: Color(0xFFF6ae2d),
       ),
     );
   }
