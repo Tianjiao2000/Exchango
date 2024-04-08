@@ -18,6 +18,7 @@ class _ButtonBlockState extends State<ButtonBlock> {
 
   // ButtonBlock({Key? key, required this.sortedButtonData}) : super(key: key);
   final MQTTService _mqttService = MQTTService();
+
   String message = 'Waiting for MQTT messages...';
   @override
   void initState() {
