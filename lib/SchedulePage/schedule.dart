@@ -22,7 +22,7 @@ final List<Map<String, dynamic>> schedules = [
   },
   {
     'event': 'Hospital',
-    'time': '16:00',
+    'time': '21:00',
     'done': false,
     'type': 'hospital',
     'location': 'Central Hospital'

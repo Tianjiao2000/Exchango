@@ -14,7 +14,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedIndex = 0;
 
   // define page list
-  final List<Widget> _pages = [ActivityPage(), SchedulePage(), AccountPage()];
+  // final List<Widget> _pages = [ActivityPage(), SchedulePage(), AccountPage()];
+  final List<Widget> _pages = [ActivityPage(), SchedulePage()];
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -42,10 +43,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
             icon: Icon(Icons.schedule),
             label: 'Schedule',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.manage_accounts),
-            label: 'Account',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.manage_accounts),
+          //   label: 'Account',
+          // ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Color(0xFFF06236),

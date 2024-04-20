@@ -3,6 +3,7 @@ import 'schedule.dart';
 import 'package:intl/intl.dart';
 import 'AddSchedule.dart';
 import '../notification/notification_schedule.dart';
+import 'package:flutter_demo/Global.dart';
 
 class SchedulePage extends StatefulWidget {
   @override
@@ -40,14 +41,24 @@ class _SchedulePageState extends State<SchedulePage> {
   void schedulePresetNotifications() {
     for (var schedule in schedules) {
       DateTime scheduleDateTime = _getDateTimeForSchedule(schedule['time']);
+      // 打印调度时间和当前时间的对比，以确认通知是否应该被调度
+      print(
+          'Scheduling notification for: ${schedule['event']} at $scheduleDateTime');
+      print('Current time is: ${DateTime.now()}');
+      print(
+          'Is schedule time after now? ${scheduleDateTime.isAfter(DateTime.now())}');
+
       if (scheduleDateTime.isAfter(DateTime.now())) {
+        String notificationMessage =
+            "It's time for ${schedule['event']} at ${schedule['location']}. Don't forget to bring ${Global.petName}!";
         NotificationSchedule().scheduleNotification(
-          // Generate a unique ID for each schedule
-          schedules.indexOf(schedule),
+          schedules.indexOf(schedule), // Generate a unique ID for each schedule
           schedule['event'],
-          "It's time for ${schedule['event']} at ${schedule['location']}",
+          notificationMessage,
           scheduleDateTime,
         );
+      } else {
+        print('Scheduled time is not after now. Not scheduling notification.');
       }
     }
   }
@@ -235,11 +246,13 @@ class _SchedulePageState extends State<SchedulePage> {
             });
             DateTime scheduleDateTime = _getDateTimeForSchedule(result['time']);
             if (scheduleDateTime.isAfter(DateTime.now())) {
+              String notificationMessage =
+                  "It's time for ${result['event']} at ${result['location']}. Don't forget to bring ${Global.petName}!";
               NotificationSchedule().scheduleNotification(
                 sortedSchedules.indexOf(
                     result), // Assuming this is unique enough for your case
                 result['event'],
-                "It's time for ${result['event']} at ${result['location']}",
+                notificationMessage,
                 scheduleDateTime,
               );
             }

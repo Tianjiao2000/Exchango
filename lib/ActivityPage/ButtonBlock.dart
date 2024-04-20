@@ -37,25 +37,30 @@ class _ButtonBlockState extends State<ButtonBlock> {
     _loadButtonData(); // load saved info
   }
 
+  // Future<void> _loadButtonData() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String email = FirebaseAuth.instance.currentUser?.email ?? '';
+  //   String storedButtonData = prefs.getString('${email}_buttonData') ?? '';
+  //   if (storedButtonData.isNotEmpty) {
+  //     // 本地存储中有数据，解码并加载
+  //     List<dynamic> decodedData = json.decode(storedButtonData);
+  //     setState(() {
+  //       sortedButtonData = decodedData.map<Map<String, dynamic>>((item) {
+  //         DateTime dt = DateTime.parse(item['datetime']);
+  //         return {'name': item['name'], 'datetime': dt};
+  //       }).toList();
+  //     });
+  //   } else {
+  //     // 本地存储中没有数据，加载默认值
+  //     setState(() {
+  //       sortedButtonData = widget.sortedButtonData;
+  //     });
+  //   }
+  // }
   Future<void> _loadButtonData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String email = FirebaseAuth.instance.currentUser?.email ?? '';
-    String storedButtonData = prefs.getString('${email}_buttonData') ?? '';
-    if (storedButtonData.isNotEmpty) {
-      // 本地存储中有数据，解码并加载
-      List<dynamic> decodedData = json.decode(storedButtonData);
-      setState(() {
-        sortedButtonData = decodedData.map<Map<String, dynamic>>((item) {
-          DateTime dt = DateTime.parse(item['datetime']);
-          return {'name': item['name'], 'datetime': dt};
-        }).toList();
-      });
-    } else {
-      // 本地存储中没有数据，加载默认值
-      setState(() {
-        sortedButtonData = widget.sortedButtonData;
-      });
-    }
+    setState(() {
+      sortedButtonData = widget.sortedButtonData;
+    });
   }
 
   void _addButtonData(String name) async {

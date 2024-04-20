@@ -96,18 +96,6 @@ class _AccountPageState extends State<AccountPage> {
         padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
-            GestureDetector(
-              onTap: _pickImage,
-              child: CircleAvatar(
-                radius: 60,
-                backgroundImage: Global.userAvatarUrl.isNotEmpty
-                    ? FileImage(File(Global.userAvatarUrl))
-                    : null,
-                child: Icon(Icons.camera_alt, color: Colors.white),
-                backgroundColor: Colors.grey[300],
-              ),
-            ),
-            SizedBox(height: 15),
             Text('Email: ${Global.userEmail}', style: TextStyle(fontSize: 16)),
             SizedBox(height: 10),
             TextField(
