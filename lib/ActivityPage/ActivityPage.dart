@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../AccountPage/StartPage.dart';
+import '../StartPage.dart';
 import 'ButtonBlock.dart';
 import 'TempBlock.dart';
 import 'HumidityBlock.dart';
@@ -9,8 +9,47 @@ import 'button_info.dart';
 import 'SoundBlock.dart';
 import 'LightBlock.dart';
 
-class ActivityPage extends StatelessWidget {
+class ActivityPage extends StatefulWidget {
+  @override
+  _ActivityPageState createState() => _ActivityPageState();
+}
+
+class _ActivityPageState extends State<ActivityPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _petNameController = TextEditingController();
+  bool _isEditing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    loadPetInfo();
+  }
+
+  Future<void> loadPetInfo() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String email = _auth.currentUser?.email ?? '';
+    String loadedPetName = prefs.getString('${email}_petName') ?? '';
+    // 使用setState来确保UI更新
+    setState(() {
+      _petNameController.text = loadedPetName;
+    });
+  }
+
+  Future<void> savePetInfo() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+        '${_auth.currentUser?.email}_petName', _petNameController.text);
+    setState(() {
+      _isEditing = false;
+    });
+  }
+
+  void toggleEdit() {
+    setState(() {
+      _isEditing = !_isEditing;
+    });
+  }
+
   Future<void> clearUserInfo() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('userAvatarUrl');
@@ -46,6 +85,34 @@ class ActivityPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
         child: Column(
           children: <Widget>[
+            Row(
+              children: [
+                Expanded(
+                  child: !_isEditing
+                      ? Text("My Name: ${_petNameController.text}")
+                      : TextField(
+                          controller: _petNameController,
+                          decoration: InputDecoration(
+                            labelText: 'Edit Pet Name',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: toggleEdit,
+                ),
+                if (_isEditing)
+                  ElevatedButton(
+                    onPressed: savePetInfo,
+                    child: Text("Save"),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.blue,
+                    ),
+                  ),
+              ],
+            ),
             Flexible(
               flex: 10,
               child: ButtonBlock(sortedButtonData: sortedButtonData),
@@ -86,6 +153,25 @@ class ActivityPage extends StatelessWidget {
                 ],
               ),
             ),
+            // Flexible(
+            //   flex: 1,
+            //   child: Container(),
+            // ),
+            // TextField(
+            //   controller: _petNameController,
+            //   decoration: InputDecoration(
+            //     labelText: 'Pet Name',
+            //     border: OutlineInputBorder(),
+            //   ),
+            // ),
+            // ElevatedButton(
+            //   onPressed: savePetInfo,
+            //   child: Text("Save Pet Name"),
+            //   style: ElevatedButton.styleFrom(
+            //     foregroundColor: Colors.white,
+            //     backgroundColor: Colors.blue, // Text color
+            //   ),
+            // ),
             Flexible(
               flex: 1,
               child: Container(),

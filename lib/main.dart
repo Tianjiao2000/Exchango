@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'navigation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'AccountPage/StartPage.dart';
+import 'StartPage.dart';
 import 'notification/notification_schedule.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;

@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../global.dart'; // 确保已正确导入Global类
-import 'StartPage.dart'; // 确保已正确导入StartPage类
+import '../StartPage.dart'; // 确保已正确导入StartPage类
 
 class AccountPage extends StatefulWidget {
   @override
