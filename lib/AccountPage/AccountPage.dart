@@ -150,7 +150,7 @@ class _AccountPageState extends State<AccountPage> {
               },
               child: Text('Save'),
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 255, 182, 47),
+                backgroundColor: Color.fromARGB(255, 255, 182, 47),
                 textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),
@@ -158,7 +158,7 @@ class _AccountPageState extends State<AccountPage> {
               onPressed: _logout,
               child: Text('Logout'),
               style: ElevatedButton.styleFrom(
-                primary: Colors.red,
+                backgroundColor: Colors.red,
                 textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),

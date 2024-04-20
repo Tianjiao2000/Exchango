@@ -60,7 +60,7 @@ class StartPage extends StatelessWidget {
                       },
                       child:
                           Text('Login', style: TextStyle(color: Colors.white)),
-                      style: ElevatedButton.styleFrom(primary: commonColor),
+                      style: ElevatedButton.styleFrom(backgroundColor: commonColor),
                     ),
                   ),
                   TextButton(

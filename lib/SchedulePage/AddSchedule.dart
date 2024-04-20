@@ -111,8 +111,7 @@ class _AddScheduleState extends State<AddSchedule> {
                 SizedBox(height: 24), // Add space before the button
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 255, 182, 47), // Button color
-                    onPrimary: Color.fromARGB(255, 19, 19, 19), // Text color
+                    foregroundColor: Color.fromARGB(255, 19, 19, 19), backgroundColor: Color.fromARGB(255, 255, 182, 47), // Text color
                     padding:
                         EdgeInsets.symmetric(vertical: 16), // Button padding
                   ),
