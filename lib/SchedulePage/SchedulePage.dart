@@ -4,6 +4,9 @@ import 'package:intl/intl.dart';
 import 'AddSchedule.dart';
 import '../notification/notification_schedule.dart';
 import 'package:flutter_demo/Global.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:convert';
 
 class SchedulePage extends StatefulWidget {
   @override
@@ -11,6 +14,8 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _SchedulePageState extends State<SchedulePage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   Color getTypeColor(String type) {
     switch (type) {
       case 'play':
@@ -33,12 +38,38 @@ class _SchedulePageState extends State<SchedulePage> {
     super.initState();
     NotificationSchedule().initNotification();
     schedulePresetNotifications();
-    sortedSchedules = List.from(schedules);
-    sortedSchedules
-        .sort((a, b) => _getTime(a['time']).compareTo(_getTime(b['time'])));
+    // sortedSchedules = List.from(schedules);
+    // sortedSchedules
+    //     .sort((a, b) => _getTime(a['time']).compareTo(_getTime(b['time'])));
+    loadSchedules();
   }
 
-  void schedulePresetNotifications() {
+  // 加载schedules
+  Future<void> loadSchedules() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String email = _auth.currentUser?.email ?? '';
+    List<String> schedulesString =
+        prefs.getStringList('${email}_schedules') ?? [];
+    // 使用显式类型转换来分配解码后的数据
+    sortedSchedules = schedulesString
+        .map((s) => json.decode(s) as Map<String, dynamic>)
+        .toList();
+    setState(() {
+      sortedSchedules
+          .sort((a, b) => _getTime(a['time']).compareTo(_getTime(b['time'])));
+    });
+  }
+
+  Future<void> saveSchedules() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String email = _auth.currentUser?.email ?? '';
+    // 使用字符串插值来创建键名
+    List<String> schedulesString =
+        sortedSchedules.map((s) => json.encode(s)).toList();
+    await prefs.setStringList('${email}_schedules', schedulesString);
+  }
+
+  Future<void> schedulePresetNotifications() async {
     for (var schedule in schedules) {
       DateTime scheduleDateTime = _getDateTimeForSchedule(schedule['time']);
       // 打印调度时间和当前时间的对比，以确认通知是否应该被调度
@@ -47,10 +78,13 @@ class _SchedulePageState extends State<SchedulePage> {
       print('Current time is: ${DateTime.now()}');
       print(
           'Is schedule time after now? ${scheduleDateTime.isAfter(DateTime.now())}');
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String email = _auth.currentUser?.email ?? '';
+      String petName = prefs.getString('${email}_petName') ?? '';
 
       if (scheduleDateTime.isAfter(DateTime.now())) {
         String notificationMessage =
-            "It's time for ${schedule['event']} at ${schedule['location']}. Don't forget to bring ${Global.petName}!";
+            "It's time for ${schedule['event']} at ${schedule['location']}. ${petName} is waiting!";
         NotificationSchedule().scheduleNotification(
           schedules.indexOf(schedule), // Generate a unique ID for each schedule
           schedule['event'],
@@ -214,6 +248,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                     setState(() {
                                       sortedSchedules.removeAt(index);
                                     });
+                                    saveSchedules();
                                     Navigator.of(context).pop();
                                   },
                                 ),
@@ -244,10 +279,15 @@ class _SchedulePageState extends State<SchedulePage> {
               sortedSchedules.sort(
                   (a, b) => _getTime(a['time']).compareTo(_getTime(b['time'])));
             });
+            saveSchedules();
             DateTime scheduleDateTime = _getDateTimeForSchedule(result['time']);
+            final SharedPreferences prefs =
+                await SharedPreferences.getInstance();
+            String email = _auth.currentUser?.email ?? '';
+            String petName = prefs.getString('${email}_petName') ?? '';
             if (scheduleDateTime.isAfter(DateTime.now())) {
               String notificationMessage =
-                  "It's time for ${result['event']} at ${result['location']}. Don't forget to bring ${Global.petName}!";
+                  "It's time for ${result['event']} at ${result['location']}. ${petName} is waiting!";
               NotificationSchedule().scheduleNotification(
                 sortedSchedules.indexOf(
                     result), // Assuming this is unique enough for your case
