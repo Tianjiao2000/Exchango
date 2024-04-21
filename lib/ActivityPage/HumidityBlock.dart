@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'mqtt_subscriber.dart';
+import 'dart:async';
 
 class HumidityBlock extends StatefulWidget {
   @override
@@ -7,23 +8,25 @@ class HumidityBlock extends StatefulWidget {
 }
 
 class _HumidityBlockState extends State<HumidityBlock> {
-  final MQTTService _mqttService = MQTTService();
+  final MQTTService _mqttService = MQTTService(); // 使用同一个MQTT服务实例
   String humidity = 'Waiting for humidity...';
+  late StreamSubscription<String> _humiditySubscription; // 添加一个订阅变量
 
   @override
   void initState() {
     super.initState();
-    _mqttService.initializeMQTTClient();
+    // 注意，这里不再调用_initializeMQTTClient，因为它已在ButtonBlock中被调用
     _mqttService.messageStream.listen((message) {
       print(message); // For debugging
       if (message.contains('Humidity')) {
-        // split humidiity string to get value
         final parts = message.split('Humidity = ');
         if (parts.length > 1) {
           final humidityValue = parts[1];
-          setState(() {
-            humidity = humidityValue;
-          });
+          if (mounted) {
+            setState(() {
+              humidity = humidityValue;
+            });
+          }
         }
       }
     });
@@ -31,8 +34,9 @@ class _HumidityBlockState extends State<HumidityBlock> {
 
   @override
   void dispose() {
+    _humiditySubscription.cancel();
     super.dispose();
-    _mqttService.dispose();
+    // 不再需要在这里调用dispose方法，因为MQTT服务应该在应用关闭时统一处理
   }
 
   @override

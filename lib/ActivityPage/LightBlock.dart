@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'mqtt_subscriber.dart';
+import 'dart:async';
 
 class LightBlock extends StatefulWidget {
   @override
@@ -9,12 +10,13 @@ class LightBlock extends StatefulWidget {
 class _LightBlockState extends State<LightBlock> {
   final MQTTService _mqttService = MQTTService();
   String light = 'Waiting for light level...';
+  late StreamSubscription<String> _lightSubscription; // 添加一个订阅变量
 
   @override
   void initState() {
     super.initState();
     // start mqtt
-    _mqttService.initializeMQTTClient();
+    // _mqttService.initializeMQTTClient();
     _mqttService.messageStream.listen((message) {
       print(message);
       if (message.contains('Light')) {
@@ -22,9 +24,11 @@ class _LightBlockState extends State<LightBlock> {
         final parts = message.split('Light level: ');
         if (parts.length > 1) {
           final lightValue = parts[1];
-          setState(() {
-            light = lightValue;
-          });
+          if (mounted) {
+            setState(() {
+              light = lightValue;
+            });
+          }
         }
       }
     });
@@ -32,8 +36,9 @@ class _LightBlockState extends State<LightBlock> {
 
   @override
   void dispose() {
+    _lightSubscription.cancel();
     super.dispose();
-    _mqttService.dispose();
+    // _mqttService.dispose();
   }
 
   @override

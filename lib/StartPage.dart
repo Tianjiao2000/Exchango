@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 import 'navigation.dart';
-import 'AccountPage/PetInfo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'global.dart';
 
@@ -60,7 +59,8 @@ class StartPage extends StatelessWidget {
                       },
                       child:
                           Text('Login', style: TextStyle(color: Colors.white)),
-                      style: ElevatedButton.styleFrom(backgroundColor: commonColor),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: commonColor),
                     ),
                   ),
                   TextButton(
@@ -184,16 +184,6 @@ class StartPage extends StatelessWidget {
             content: Text(
                 'A verification email has been sent. Please check your inbox or spam.'),
           ),
-        );
-
-        // Optionally, navigate the user to a page where they can await email verification
-        // before accessing the app's features, or instruct them to manually check their email
-        // and verify before logging in.
-      } else {
-        // Navigate to your app's main page if the user is somehow already verified
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => PetInfoPage()),
         );
       }
     } on FirebaseAuthException catch (e) {

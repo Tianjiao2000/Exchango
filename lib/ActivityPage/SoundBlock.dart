@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'mqtt_subscriber.dart';
+import 'dart:async';
 
 class SoundBlock extends StatefulWidget {
   @override
@@ -9,11 +10,12 @@ class SoundBlock extends StatefulWidget {
 class _SoundBlockState extends State<SoundBlock> {
   final MQTTService _mqttService = MQTTService();
   String sound = 'Waiting for sound level...';
+  late StreamSubscription<String> _soundSubscription; // 添加一个订阅变量
 
   @override
   void initState() {
     super.initState();
-    _mqttService.initializeMQTTClient();
+    // _mqttService.initializeMQTTClient();
     _mqttService.messageStream.listen((message) {
       print(message); // For debugging
       if (message.contains('Sound')) {
@@ -21,9 +23,12 @@ class _SoundBlockState extends State<SoundBlock> {
         final parts = message.split('Sound level: ');
         if (parts.length > 1) {
           final soundValue = parts[1];
-          setState(() {
-            sound = soundValue;
-          });
+          if (mounted) {
+            // 检查是否仍然挂载
+            setState(() {
+              sound = soundValue;
+            });
+          }
         }
       }
     });
@@ -31,8 +36,9 @@ class _SoundBlockState extends State<SoundBlock> {
 
   @override
   void dispose() {
+    _soundSubscription.cancel();
     super.dispose();
-    _mqttService.dispose();
+    // _mqttService.dispose();
   }
 
   @override

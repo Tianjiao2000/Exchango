@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'mqtt_subscriber.dart';
 
@@ -9,22 +11,23 @@ class TempBlock extends StatefulWidget {
 class _TempBlockState extends State<TempBlock> {
   final MQTTService _mqttService = MQTTService();
   String temperature = 'Waiting for temperature...';
+  late StreamSubscription<String> _temperatureSubscription; // 添加一个订阅变量
 
   @override
   void initState() {
     super.initState();
-    // get the mqtt info by message content
-    _mqttService.initializeMQTTClient();
-    _mqttService.messageStream.listen((message) {
+    _temperatureSubscription = _mqttService.messageStream.listen((message) {
       print(message);
       if (message.contains('Temperature')) {
         final parts = message.split('Temperature = ');
-        // get the temp value
         if (parts.length > 1) {
           final tempValue = parts[1];
-          setState(() {
-            temperature = tempValue;
-          });
+          if (mounted) {
+            // 检查是否仍然挂载
+            setState(() {
+              temperature = tempValue;
+            });
+          }
         }
       }
     });
@@ -32,8 +35,8 @@ class _TempBlockState extends State<TempBlock> {
 
   @override
   void dispose() {
+    _temperatureSubscription.cancel(); // 取消订阅
     super.dispose();
-    _mqttService.dispose();
   }
 
   @override
