@@ -46,12 +46,12 @@ class _ButtonBlockState extends State<ButtonBlock> {
     String petName = prefs.getString('${email}_petName') ?? 'Your pet';
     String body = '$petName wants $buttonName!';
 
-    // 调用NotificationSchedule类的方法来调度通知
+    // schedule notification
     await notificationSchedule.scheduleNotification(
-      0, // 通知ID
-      'Button Pressed', // 通知标题
-      body, // 通知内容
-      DateTime.now().add(Duration(seconds: 5)), // 延迟5秒发送通知
+      0, // id
+      'Button Pressed', // title
+      body, // content
+      DateTime.now().add(Duration(seconds: 5)), // delay 5s
     );
   }
 

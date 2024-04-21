@@ -8,14 +8,13 @@ class HumidityBlock extends StatefulWidget {
 }
 
 class _HumidityBlockState extends State<HumidityBlock> {
-  final MQTTService _mqttService = MQTTService(); // 使用同一个MQTT服务实例
+  final MQTTService _mqttService = MQTTService(); // use same mqtt serivce
   String humidity = 'Waiting for humidity...';
-  late StreamSubscription<String> _humiditySubscription; // 添加一个订阅变量
+  late StreamSubscription<String> _humiditySubscription; // add subcription
 
   @override
   void initState() {
     super.initState();
-    // 注意，这里不再调用_initializeMQTTClient，因为它已在ButtonBlock中被调用
     _mqttService.messageStream.listen((message) {
       print(message); // For debugging
       if (message.contains('Humidity')) {
@@ -36,7 +35,6 @@ class _HumidityBlockState extends State<HumidityBlock> {
   void dispose() {
     _humiditySubscription.cancel();
     super.dispose();
-    // 不再需要在这里调用dispose方法，因为MQTT服务应该在应用关闭时统一处理
   }
 
   @override

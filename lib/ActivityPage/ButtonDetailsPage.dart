@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-// import 'button_info.dart'; // 确保这个文件包含了按钮数据
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -57,7 +56,7 @@ class _ButtonDetailsPageState extends State<ButtonDetailsPage> {
     }
 
     setState(() {
-      isLoading = false; // 更新加载状态
+      isLoading = false; // update loading
     });
   }
 
@@ -77,7 +76,7 @@ class _ButtonDetailsPageState extends State<ButtonDetailsPage> {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      // 在数据加载完成之前显示加载指示器
+      // load data first then widget
       return Scaffold(
         appBar: AppBar(
           title: Text('Button Details'),
@@ -86,7 +85,7 @@ class _ButtonDetailsPageState extends State<ButtonDetailsPage> {
         body: Center(child: CircularProgressIndicator()),
       );
     }
-    // 当数据加载完成后显示实际内容
+    // after loading show content
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -208,7 +207,7 @@ Widget _buildButtonPieChart(String buttonName, Map<String, int> timeData) {
     legends.add(
       LegendItem(
         color: timeSlotColors[timeSlot]!,
-        text: timeSlot, // 显示描述
+        text: timeSlot, // description
       ),
     );
   });

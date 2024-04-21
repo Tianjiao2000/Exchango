@@ -11,7 +11,7 @@ class TempBlock extends StatefulWidget {
 class _TempBlockState extends State<TempBlock> {
   final MQTTService _mqttService = MQTTService();
   String temperature = 'Waiting for temperature...';
-  late StreamSubscription<String> _temperatureSubscription; // 添加一个订阅变量
+  late StreamSubscription<String> _temperatureSubscription;
 
   @override
   void initState() {
@@ -23,7 +23,6 @@ class _TempBlockState extends State<TempBlock> {
         if (parts.length > 1) {
           final tempValue = parts[1];
           if (mounted) {
-            // 检查是否仍然挂载
             setState(() {
               temperature = tempValue;
             });
@@ -35,7 +34,7 @@ class _TempBlockState extends State<TempBlock> {
 
   @override
   void dispose() {
-    _temperatureSubscription.cancel(); // 取消订阅
+    _temperatureSubscription.cancel(); // cancel subcription
     super.dispose();
   }
 

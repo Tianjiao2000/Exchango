@@ -29,7 +29,7 @@ class _ActivityPageState extends State<ActivityPage> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String email = _auth.currentUser?.email ?? '';
     String loadedPetName = prefs.getString('${email}_petName') ?? '';
-    // 使用setState来确保UI更新
+    // use setstate to update ui
     setState(() {
       _petNameController.text = loadedPetName;
     });
@@ -59,7 +59,8 @@ class _ActivityPageState extends State<ActivityPage> {
 
   void logout(BuildContext context) async {
     await _auth.signOut();
-    await clearUserInfo(); // 清除用户信息
+    // clear user info when logout
+    await clearUserInfo();
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => StartPage()),
@@ -144,34 +145,15 @@ class _ActivityPageState extends State<ActivityPage> {
               child: Row(
                 children: <Widget>[
                   Expanded(
-                    child: SoundBlock(), // 声音区块
+                    child: SoundBlock(),
                   ),
                   SizedBox(width: 15),
                   Expanded(
-                    child: LightBlock(), // 光照区块
+                    child: LightBlock(),
                   ),
                 ],
               ),
             ),
-            // Flexible(
-            //   flex: 1,
-            //   child: Container(),
-            // ),
-            // TextField(
-            //   controller: _petNameController,
-            //   decoration: InputDecoration(
-            //     labelText: 'Pet Name',
-            //     border: OutlineInputBorder(),
-            //   ),
-            // ),
-            // ElevatedButton(
-            //   onPressed: savePetInfo,
-            //   child: Text("Save Pet Name"),
-            //   style: ElevatedButton.styleFrom(
-            //     foregroundColor: Colors.white,
-            //     backgroundColor: Colors.blue, // Text color
-            //   ),
-            // ),
             Flexible(
               flex: 1,
               child: Container(),

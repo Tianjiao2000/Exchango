@@ -10,7 +10,7 @@ class SoundBlock extends StatefulWidget {
 class _SoundBlockState extends State<SoundBlock> {
   final MQTTService _mqttService = MQTTService();
   String sound = 'Waiting for sound level...';
-  late StreamSubscription<String> _soundSubscription; // 添加一个订阅变量
+  late StreamSubscription<String> _soundSubscription;
 
   @override
   void initState() {
@@ -24,7 +24,6 @@ class _SoundBlockState extends State<SoundBlock> {
         if (parts.length > 1) {
           final soundValue = parts[1];
           if (mounted) {
-            // 检查是否仍然挂载
             setState(() {
               sound = soundValue;
             });

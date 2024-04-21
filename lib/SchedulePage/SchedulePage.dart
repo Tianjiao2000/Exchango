@@ -42,13 +42,12 @@ class _SchedulePageState extends State<SchedulePage> {
     loadSchedules();
   }
 
-  // 加载schedules
   Future<void> loadSchedules() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String email = _auth.currentUser?.email ?? '';
     List<String> schedulesString =
         prefs.getStringList('${email}_schedules') ?? [];
-    // 使用显式类型转换来分配解码后的数据
+    // allocate display
     sortedSchedules = schedulesString
         .map((s) => json.decode(s) as Map<String, dynamic>)
         .toList();
@@ -61,14 +60,12 @@ class _SchedulePageState extends State<SchedulePage> {
   Future<void> saveSchedules() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String email = _auth.currentUser?.email ?? '';
-    // 使用字符串插值来创建键名
     List<String> schedulesString =
         sortedSchedules.map((s) => json.encode(s)).toList();
     await prefs.setStringList('${email}_schedules', schedulesString);
   }
 
   Future<void> schedulePresetNotifications() async {
-    // 使用 sortedSchedules 替换原来的 schedules
     for (var schedule in sortedSchedules) {
       DateTime scheduleDateTime = _getDateTimeForSchedule(schedule['time']);
       print(
@@ -84,7 +81,7 @@ class _SchedulePageState extends State<SchedulePage> {
         String notificationMessage =
             "It's time for ${schedule['event']} at ${schedule['location']}. ${petName} is waiting!";
         NotificationSchedule().scheduleNotification(
-          sortedSchedules.indexOf(schedule), // 使用 sortedSchedules 中的索引
+          sortedSchedules.indexOf(schedule), // use index
           schedule['event'],
           notificationMessage,
           scheduleDateTime,

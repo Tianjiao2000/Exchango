@@ -50,7 +50,7 @@ class StartPage extends StatelessWidget {
                     cursorColor: commonColor,
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0), // 这里可以自定义边距大小
+                    padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       onPressed: () {
                         _login(emailController.text, passwordController.text,

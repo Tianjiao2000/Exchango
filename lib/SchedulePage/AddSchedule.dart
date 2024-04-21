@@ -37,7 +37,7 @@ class _AddScheduleState extends State<AddSchedule> {
               fontSize: 22.0, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Color.fromARGB(255, 255, 182, 47),
-        //     Color.fromARGB(255, 231, 218, 249), // Customize with your color
+        //     Color.fromARGB(255, 231, 218, 249),
       ),
       backgroundColor: Color.fromARGB(255, 255, 247, 229),
       body: SingleChildScrollView(
@@ -111,7 +111,9 @@ class _AddScheduleState extends State<AddSchedule> {
                 SizedBox(height: 24), // Add space before the button
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: Color.fromARGB(255, 19, 19, 19), backgroundColor: Color.fromARGB(255, 255, 182, 47), // Text color
+                    foregroundColor: Color.fromARGB(255, 19, 19, 19),
+                    backgroundColor:
+                        Color.fromARGB(255, 255, 182, 47), // Text color
                     padding:
                         EdgeInsets.symmetric(vertical: 16), // Button padding
                   ),
