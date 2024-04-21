@@ -6,6 +6,7 @@ import 'mqtt_subscriber.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../notification/notification_schedule.dart';
 
 class ButtonBlock extends StatefulWidget {
   final List<Map<String, dynamic>> sortedButtonData;
@@ -18,11 +19,11 @@ class ButtonBlock extends StatefulWidget {
 
 class _ButtonBlockState extends State<ButtonBlock> {
   List<Map<String, dynamic>> sortedButtonData = [];
-
   // ButtonBlock({Key? key, required this.sortedButtonData}) : super(key: key);
   final MQTTService _mqttService = MQTTService();
-
   String message = 'Waiting for MQTT messages...';
+  final NotificationSchedule notificationSchedule = NotificationSchedule();
+
   @override
   void initState() {
     super.initState();
@@ -32,34 +33,41 @@ class _ButtonBlockState extends State<ButtonBlock> {
       print(message);
       if (message.contains('Button')) {
         _addButtonData('Food');
+        _scheduleButtonPressNotification('Food');
       }
     });
     _loadButtonData(); // load saved info
+    notificationSchedule.initNotification();
   }
 
-  // Future<void> _loadButtonData() async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String email = FirebaseAuth.instance.currentUser?.email ?? '';
-  //   String storedButtonData = prefs.getString('${email}_buttonData') ?? '';
-  //   if (storedButtonData.isNotEmpty) {
-  //     // 本地存储中有数据，解码并加载
-  //     List<dynamic> decodedData = json.decode(storedButtonData);
-  //     setState(() {
-  //       sortedButtonData = decodedData.map<Map<String, dynamic>>((item) {
-  //         DateTime dt = DateTime.parse(item['datetime']);
-  //         return {'name': item['name'], 'datetime': dt};
-  //       }).toList();
-  //     });
-  //   } else {
-  //     // 本地存储中没有数据，加载默认值
-  //     setState(() {
-  //       sortedButtonData = widget.sortedButtonData;
-  //     });
-  //   }
-  // }
+  Future<void> _scheduleButtonPressNotification(String buttonName) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String email = FirebaseAuth.instance.currentUser?.email ?? '';
+    String petName = prefs.getString('${email}_petName') ?? 'Your pet';
+    String body = '$petName wants $buttonName!';
+
+    // 调用NotificationSchedule类的方法来调度通知
+    await notificationSchedule.scheduleNotification(
+      0, // 通知ID
+      'Button Pressed', // 通知标题
+      body, // 通知内容
+      DateTime.now().add(Duration(seconds: 5)), // 延迟5秒发送通知
+    );
+  }
+
   Future<void> _loadButtonData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String email = FirebaseAuth.instance.currentUser?.email ?? '';
+    String storedData = prefs.getString('${email}_buttonData') ?? '[]';
+    List<dynamic> jsonData = json.decode(storedData);
+    List<Map<String, dynamic>> loadedData = jsonData.map((item) {
+      return {
+        'name': item['name'],
+        'datetime': DateTime.parse(item['datetime'])
+      };
+    }).toList();
     setState(() {
-      sortedButtonData = widget.sortedButtonData;
+      sortedButtonData = loadedData;
     });
   }
 
@@ -70,7 +78,6 @@ class _ButtonBlockState extends State<ButtonBlock> {
     });
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String email = FirebaseAuth.instance.currentUser?.email ?? '';
-    // 将日期转换为字符串格式以便保存
     String encodedData = json.encode(sortedButtonData.map((item) {
       return {
         'name': item['name'],
