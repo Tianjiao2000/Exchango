@@ -22,7 +22,7 @@ class _ButtonBlockState extends State<ButtonBlock> {
   // ButtonBlock({Key? key, required this.sortedButtonData}) : super(key: key);
   final MQTTService _mqttService = MQTTService();
   String message = 'Waiting for MQTT messages...';
-  final NotificationSchedule notificationSchedule = NotificationSchedule();
+  final NotificationService notificationSchedule = NotificationService();
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _ButtonBlockState extends State<ButtonBlock> {
       }
     });
     _loadButtonData(); // load saved info
-    notificationSchedule.initNotification();
+    notificationSchedule.initialize();
   }
 
   Future<void> _scheduleButtonPressNotification(String buttonName) async {
@@ -55,12 +55,23 @@ class _ButtonBlockState extends State<ButtonBlock> {
     );
   }
 
+  // Future<void> _loadButtonData() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String email = FirebaseAuth.instance.currentUser?.email ?? '';
+  //   String storedData = prefs.getString('${email}_buttonData') ?? '[]';
+  //   List<dynamic> jsonData = json.decode(storedData);
+  //   List<Map<String, dynamic>> loadedData = jsonData.map((item) {
+  //     return {
+  //       'name': item['name'],
+  //       'datetime': DateTime.parse(item['datetime'])
+  //     };
+  //   }).toList();
+  //   setState(() {
+  //     sortedButtonData = loadedData;
+  //   });
+  // }
   Future<void> _loadButtonData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String email = FirebaseAuth.instance.currentUser?.email ?? '';
-    String storedData = prefs.getString('${email}_buttonData') ?? '[]';
-    List<dynamic> jsonData = json.decode(storedData);
-    List<Map<String, dynamic>> loadedData = jsonData.map((item) {
+    List<Map<String, dynamic>> loadedData = buttonData.map((item) {
       return {
         'name': item['name'],
         'datetime': DateTime.parse(item['datetime'])

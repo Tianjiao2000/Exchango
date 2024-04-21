@@ -34,7 +34,8 @@ class _SchedulePageState extends State<SchedulePage> {
   @override
   void initState() {
     super.initState();
-    NotificationSchedule().initNotification();
+    // NotificationSchedule().initNotification();
+    NotificationService().initialize();
     schedulePresetNotifications();
     // sortedSchedules = List.from(schedules);
     // sortedSchedules
@@ -80,8 +81,8 @@ class _SchedulePageState extends State<SchedulePage> {
       if (scheduleDateTime.isAfter(DateTime.now())) {
         String notificationMessage =
             "It's time for ${schedule['event']} at ${schedule['location']}. ${petName} is waiting!";
-        NotificationSchedule().scheduleNotification(
-          sortedSchedules.indexOf(schedule), // use index
+        NotificationService().scheduleNotification(
+          sortedSchedules.indexOf(schedule), // 使用索引作为ID
           schedule['event'],
           notificationMessage,
           scheduleDateTime,
@@ -180,7 +181,7 @@ class _SchedulePageState extends State<SchedulePage> {
                             ],
                           ),
                           // Add space between the name and time
-                          SizedBox(height: 4),
+                          SizedBox(height: 1),
                           Row(
                             children: [
                               Icon(Icons.access_time, size: 16),
@@ -283,13 +284,15 @@ class _SchedulePageState extends State<SchedulePage> {
             if (scheduleDateTime.isAfter(DateTime.now())) {
               String notificationMessage =
                   "It's time for ${result['event']} at ${result['location']}. ${petName} is waiting!";
-              NotificationSchedule().scheduleNotification(
-                sortedSchedules.indexOf(
-                    result), // Assuming this is unique enough for your case
+              NotificationService().scheduleNotification(
+                sortedSchedules.indexOf(result), // 使用索引作为通知ID
                 result['event'],
                 notificationMessage,
                 scheduleDateTime,
               );
+            } else {
+              print(
+                  'Scheduled time is not after now. Not scheduling notification.');
             }
           }
         },

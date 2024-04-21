@@ -9,7 +9,7 @@ class SoundBlock extends StatefulWidget {
 
 class _SoundBlockState extends State<SoundBlock> {
   final MQTTService _mqttService = MQTTService();
-  String sound = 'Waiting for sound level...';
+  String sound = 'Waiting ...';
   late StreamSubscription<String> _soundSubscription;
 
   @override

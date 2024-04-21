@@ -15,7 +15,15 @@ class StartPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text('Login', style: TextStyle(color: Colors.black)),
+          title: Text(
+            'Login',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 22.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
           backgroundColor: commonColor),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

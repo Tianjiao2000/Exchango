@@ -68,8 +68,8 @@ class _AddScheduleState extends State<AddSchedule> {
                     border: OutlineInputBorder(), // Add a border
                     icon: Icon(Icons.access_time), // Add an icon
                   ),
-                  keyboardType:
-                      TextInputType.datetime, // Use a suitable keyboard
+                  // keyboardType:
+                  //     TextInputType.datetime, // Use a suitable keyboard
                   onSaved: (value) => _time = value!,
                   validator: (value) {
                     return value!.isEmpty ? 'Please enter a time' : null;

@@ -9,7 +9,7 @@ class LightBlock extends StatefulWidget {
 
 class _LightBlockState extends State<LightBlock> {
   final MQTTService _mqttService = MQTTService();
-  String light = 'Waiting for light level...';
+  String light = 'Waiting...';
   late StreamSubscription<String> _lightSubscription;
 
   @override

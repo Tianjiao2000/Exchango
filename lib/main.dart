@@ -28,7 +28,8 @@ void main() async {
   _configureStaticTimeZone();
 
   // Initialize notifications
-  NotificationSchedule().initNotification();
+  // NotificationSchedule().initNotification();
+  await NotificationService().initialize();
 
   runApp(MyApp());
 }
