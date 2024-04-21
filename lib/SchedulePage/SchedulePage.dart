@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'schedule.dart';
 import 'package:intl/intl.dart';
 import 'AddSchedule.dart';
 import '../notification/notification_schedule.dart';
-import 'package:flutter_demo/Global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
@@ -70,9 +68,9 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   Future<void> schedulePresetNotifications() async {
-    for (var schedule in schedules) {
+    // 使用 sortedSchedules 替换原来的 schedules
+    for (var schedule in sortedSchedules) {
       DateTime scheduleDateTime = _getDateTimeForSchedule(schedule['time']);
-      // 打印调度时间和当前时间的对比，以确认通知是否应该被调度
       print(
           'Scheduling notification for: ${schedule['event']} at $scheduleDateTime');
       print('Current time is: ${DateTime.now()}');
@@ -86,7 +84,7 @@ class _SchedulePageState extends State<SchedulePage> {
         String notificationMessage =
             "It's time for ${schedule['event']} at ${schedule['location']}. ${petName} is waiting!";
         NotificationSchedule().scheduleNotification(
-          schedules.indexOf(schedule), // Generate a unique ID for each schedule
+          sortedSchedules.indexOf(schedule), // 使用 sortedSchedules 中的索引
           schedule['event'],
           notificationMessage,
           scheduleDateTime,

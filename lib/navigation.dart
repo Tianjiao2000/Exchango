@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'SchedulePage/SchedulePage.dart';
 import 'ActivityPage/ActivityPage.dart';
-import 'AccountPage/AccountPage.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
