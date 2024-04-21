@@ -13,6 +13,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedIndex = 0;
 
   // define page list
+  // final List<Widget> _pages = [ActivityPage(), SchedulePage(), AccountPage()];
   final List<Widget> _pages = [ActivityPage(), SchedulePage()];
 
   static const TextStyle optionStyle =
@@ -35,15 +36,20 @@ class _BottomNavigationState extends State<BottomNavigation> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.pets),
-            label: 'Activity',
+            label: 'Monitor',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.schedule),
             label: 'Schedule',
           ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.manage_accounts),
+          //   label: 'Account',
+          // ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Color(0xFFF06236),
+        backgroundColor: Color.fromARGB(255, 255, 234, 190),
         onTap: _onItemTapped,
       ),
     );
