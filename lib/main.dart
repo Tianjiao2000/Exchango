@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'navigation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -10,13 +11,12 @@ import 'ActivityPage/button_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'notification/notification_schedule.dart';
 
+// 添加MethodChannel
+const platform = MethodChannel('com.example.flutter_demo/mqtt');
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
   await Firebase.initializeApp(
     name: 'name-here',
     options: const FirebaseOptions(
@@ -27,18 +27,22 @@ void main() async {
     ),
   );
 
-  // Configure local timezone statically (you can adjust the location as needed)
   _configureStaticTimeZone();
-
-  // Initialize notifications
-  // NotificationSchedule().initNotification();
-  await NotificationService().initNotification();
-
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
-  // runApp(MyApp());
+  // 启动MQTT服务
+  startMQTTService();
+
   runApp(MyApp(isLoggedIn: isLoggedIn));
+}
+
+void startMQTTService() async {
+  try {
+    await platform.invokeMethod('startService');
+  } on PlatformException catch (e) {
+    print("Failed to start MQTT service: '${e.message}'.");
+  }
 }
 
 void _configureStaticTimeZone() {
