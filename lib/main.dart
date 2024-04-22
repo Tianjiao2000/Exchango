@@ -6,6 +6,7 @@ import 'StartPage.dart';
 import 'notification/notification_schedule.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'ActivityPage/button_info.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

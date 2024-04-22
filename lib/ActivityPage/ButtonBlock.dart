@@ -72,13 +72,12 @@ class _ButtonBlockState extends State<ButtonBlock> {
   // }
   Future<void> _loadButtonData() async {
     List<Map<String, dynamic>> loadedData = buttonData.map((item) {
-      return {
-        'name': item['name'],
-        'datetime': DateTime.parse(item['datetime'])
-      };
+      return {'name': item['name'], 'datetime': item['datetime']};
     }).toList();
+    loadedData.sort((a, b) => b['datetime'].compareTo(a['datetime']));
     setState(() {
       sortedButtonData = loadedData;
+      // sortedButtonData = widget.sortedButtonData;
     });
   }
 
