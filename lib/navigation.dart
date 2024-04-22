@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'SchedulePage/SchedulePage.dart';
 import 'ActivityPage/ActivityPage.dart';
+import 'WeatherPage/WeatherPage.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -14,7 +15,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   // define page list
   // final List<Widget> _pages = [ActivityPage(), SchedulePage(), AccountPage()];
-  final List<Widget> _pages = [ActivityPage(), SchedulePage()];
+  final List<Widget> _pages = [ActivityPage(), SchedulePage(), WeatherPage()];
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -42,10 +43,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
             icon: Icon(Icons.schedule),
             label: 'Schedule',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.manage_accounts),
-          //   label: 'Account',
-          // ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.cloud),
+            label: 'Weather',
+          ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Color(0xFFF06236),

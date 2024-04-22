@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'navigation.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'api/firebase_options.dart';
 import 'StartPage.dart';
 import 'notification/notification_schedule.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -10,6 +10,7 @@ import 'package:timezone/timezone.dart' as tz;
 import 'ActivityPage/button_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'notification/notification_schedule.dart';
+import 'api/OpenWeatherMap.dart';
 
 // 添加MethodChannel
 const platform = MethodChannel('com.example.flutter_demo/mqtt');
