@@ -72,6 +72,7 @@ class _WeatherPageState extends State<WeatherPage> {
     }
   }
 
+// make app more fun
   String getAirQualityDescription(int aqi) {
     if (aqi <= 50) {
       return 'Good! Let\'s play outside!';
@@ -86,19 +87,24 @@ class _WeatherPageState extends State<WeatherPage> {
     }
   }
 
+// convert reading
   double convertKelvinToCelsius(double kelvin) {
     return kelvin - 273.15;
   }
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Weather Information',
           textAlign: TextAlign.center,
           style: TextStyle(
-              fontSize: 22.0, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: screenWidth * 0.055,
+              fontWeight: FontWeight.bold,
+              color: Colors.white),
         ),
         backgroundColor: Color.fromARGB(255, 255, 182, 47),
       ),
@@ -117,15 +123,17 @@ class _WeatherPageState extends State<WeatherPage> {
                         Text(
                           'Air Quality Index: ${airQuality['aqi']}',
                           style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize: screenWidth * 0.045,
                               fontWeight: FontWeight.bold,
                               color: Color.fromARGB(255, 114, 76, 39)),
                         ),
-                        SizedBox(height: 8), // Spacing between texts
+                        SizedBox(
+                            height:
+                                screenHeight * 0.01), // Spacing between texts
                         Text(
                           '${getAirQualityDescription(airQuality['aqi'])}',
                           style: TextStyle(
-                              fontSize: 16.0,
+                              fontSize: screenWidth * 0.04,
                               fontWeight: FontWeight.bold,
                               color: Color.fromARGB(255, 228, 209, 34)),
                         ),
@@ -159,34 +167,35 @@ class _WeatherPageState extends State<WeatherPage> {
             child: forecastData.isEmpty
                 ? Center(child: CircularProgressIndicator())
                 : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start, // 对齐标题
+                    crossAxisAlignment: CrossAxisAlignment.start, // align
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(8.0), // 添加一些边距
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          "3-Hour Forecast for 5 Days", // 标题文本
+                          "3-Hour Forecast for 5 Days", // subtitle
                           style: TextStyle(
-                            fontSize: 20.0, // 字号大小
-                            fontWeight: FontWeight.bold, // 字重
-                            color: Color.fromARGB(255, 114, 76, 39), // 文本颜色
+                            fontSize: screenWidth * 0.05,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 114, 76, 39),
                           ),
                         ),
                       ),
                       Expanded(
-                        // 使 ListView.builder 可以填充剩余空间
+                        // ListView.builder fill space
                         child: ListView.builder(
                           itemCount: forecastData.length,
                           itemBuilder: (context, index) {
                             var item = forecastData[index];
                             double tempCelsius =
-                                convertKelvinToCelsius(item['main']['temp']);
+                                convertKelvinToCelsius(item['main']['temp'])
+                                    .toDouble();
                             return ListTile(
-                              title: Text('${item['dt_txt']}'), // 显示日期和时间
+                              title: Text('${item['dt_txt']}'), // date and time
                               subtitle: Text(
                                 '${item['weather'][0]['description']} at ${tempCelsius.toStringAsFixed(1)}°C',
                               ),
                               trailing: Image.network(
-                                'http://openweathermap.org/img/wn/${item['weather'][0]['icon']}.png', // 加载天气图标
+                                'http://openweathermap.org/img/wn/${item['weather'][0]['icon']}.png', // load weather icon
                               ),
                             );
                           },

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 class OpenWeatherMapAPI {
+  // use lat long and key to access api
   final String apiKey;
   final double latitude;
   final double longitude;

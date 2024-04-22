@@ -17,6 +17,7 @@ class NotificationService {
 
   NotificationService._internal();
 
+// init notification
   Future<void> initNotification() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/petpat');
@@ -38,6 +39,7 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
+// check and send premission request
   Future<void> checkNotificationPermission(BuildContext context) async {
     final isGranted = await Permission.notification.isGranted;
     if (!isGranted) {
@@ -70,6 +72,7 @@ class NotificationService {
     }
   }
 
+// add schedule
   Future<void> scheduleNotification(
       int id, String title, String body, DateTime scheduledTime) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(

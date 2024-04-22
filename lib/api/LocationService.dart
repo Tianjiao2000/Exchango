@@ -5,7 +5,7 @@ class LocationService {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // 检查位置服务是否启用
+    // check if service start
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       return Future.error('Location services are disabled.');
@@ -20,12 +20,12 @@ class LocationService {
     }
 
     if (permission == LocationPermission.deniedForever) {
-      // 权限被永久拒绝，无法请求权限
+      // premission denied, cannot acces location
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    // 当权限得到批准时获取当前位置
+    // acc location when success
     return await Geolocator.getCurrentPosition();
   }
 }

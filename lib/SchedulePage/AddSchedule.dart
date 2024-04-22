@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AddSchedule extends StatefulWidget {
   @override
@@ -11,7 +12,8 @@ class _AddScheduleState extends State<AddSchedule> {
   String _time = '';
   String _location = '';
   String _type = 'play'; // Default type
-  final List<String> _types = ['outdoor', 'food', 'play', 'hospital'];
+  final List<String> _types = ['outdoor', 'food', 'play', 'hospital', 'other'];
+  final TextEditingController _timeController = TextEditingController();
 
   void _saveSchedule() {
     if (_formKey.currentState!.validate()) {
@@ -63,18 +65,35 @@ class _AddScheduleState extends State<AddSchedule> {
                 ),
                 SizedBox(height: 16), // Add space between input fields
                 TextFormField(
+                  controller: _timeController,
                   decoration: InputDecoration(
                     labelText: 'Time (HH:MM)',
-                    border: OutlineInputBorder(), // Add a border
-                    icon: Icon(Icons.access_time), // Add an icon
+                    border: OutlineInputBorder(),
+                    icon: Icon(Icons.access_time),
                   ),
-                  // keyboardType:
-                  //     TextInputType.datetime, // Use a suitable keyboard
-                  onSaved: (value) => _time = value!,
-                  validator: (value) {
-                    return value!.isEmpty ? 'Please enter a time' : null;
+                  readOnly: true, // read only
+                  onTap: () async {
+                    final TimeOfDay? pickedTime = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                    );
+                    if (pickedTime != null) {
+                      // use hour and minute to set time in HH:mm
+                      String formattedTime =
+                          '${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}';
+                      _timeController.text =
+                          formattedTime; // controller text is time selected
+                    }
                   },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a time'; // check not null
+                    }
+                    return null;
+                  },
+                  onSaved: (value) => _time = value!, // save time to _state
                 ),
+
                 SizedBox(height: 16), // Add space between input fields
                 DropdownButtonFormField(
                   value: _type,

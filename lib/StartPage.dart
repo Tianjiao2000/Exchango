@@ -115,7 +115,7 @@ class StartPage extends StatelessWidget {
           ),
         );
 
-        // Optionally, resend the verification email
+        //resend the verification email
         await user.sendEmailVerification();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -156,7 +156,6 @@ class StartPage extends StatelessWidget {
         case 'too-many-requests':
           errorMessage = 'Too many attempts. Please try again later.';
           break;
-        // case 'user-not-found': // Consider handling user not found
         //   errorMessage = 'No account found for that email.';
         //   break;
       }
