@@ -49,6 +49,8 @@ dependencies:
   flutter_background_service: ^0.1.5
   http: ^1.2.1
   url_launcher: ^6.2.6
+  webview_flutter: ^3.0.4
+  geolocator: ^11.0.0
 
 dev_dependencies:
   flutter_test:

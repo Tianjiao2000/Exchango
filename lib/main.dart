@@ -12,12 +12,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'notification/notification_schedule.dart';
 import 'api/OpenWeatherMap.dart';
 
-// 添加MethodChannel
+// add MethodChannel to run in back-stage
 const platform = MethodChannel('com.example.flutter_demo/mqtt');
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // firebase
   await Firebase.initializeApp(
     name: 'name-here',
     options: const FirebaseOptions(
@@ -29,13 +30,19 @@ void main() async {
   );
 
   _configureStaticTimeZone();
+  // check if has already login or not
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
-  // 启动MQTT服务
+  // mqtt start
   startMQTTService();
-
-  runApp(MyApp(isLoggedIn: isLoggedIn));
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    runApp(MyApp(isLoggedIn: isLoggedIn));
+  });
+  // runApp(MyApp(isLoggedIn: isLoggedIn));
 }
 
 void startMQTTService() async {
@@ -70,6 +77,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    // ask for notification premission
     WidgetsBinding.instance.addPostFrameCallback((_) {
       checkNotificationPermission(context);
     });
@@ -78,6 +86,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // if login fo to home
       home: widget.isLoggedIn ? BottomNavigation() : StartPage(),
     );
   }
