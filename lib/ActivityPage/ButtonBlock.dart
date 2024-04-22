@@ -55,29 +55,41 @@ class _ButtonBlockState extends State<ButtonBlock> {
     );
   }
 
-  // Future<void> _loadButtonData() async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String email = FirebaseAuth.instance.currentUser?.email ?? '';
-  //   String storedData = prefs.getString('${email}_buttonData') ?? '[]';
-  //   List<dynamic> jsonData = json.decode(storedData);
-  //   List<Map<String, dynamic>> loadedData = jsonData.map((item) {
-  //     return {
-  //       'name': item['name'],
-  //       'datetime': DateTime.parse(item['datetime'])
-  //     };
-  //   }).toList();
-  //   setState(() {
-  //     sortedButtonData = loadedData;
-  //   });
-  // }
   Future<void> _loadButtonData() async {
-    List<Map<String, dynamic>> loadedData = buttonData.map((item) {
-      return {'name': item['name'], 'datetime': item['datetime']};
-    }).toList();
+    // Get instance of SharedPreferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // Obtain the email of the current user, default to an empty string if not available
+    String email = FirebaseAuth.instance.currentUser?.email ?? '';
+    // Attempt to retrieve the button data for the user from SharedPreferences
+    String? storedData = prefs.getString('${email}_buttonData');
+
+    List<Map<String, dynamic>> loadedData;
+
+    if (storedData != null) {
+      // Data exists in SharedPreferences, decode it
+      List<dynamic> jsonData = json.decode(storedData);
+      loadedData = jsonData.map<Map<String, dynamic>>((item) {
+        return {
+          'name': item['name'],
+          'datetime': DateTime.parse(item['datetime'])
+        };
+      }).toList();
+    } else {
+      // No data in SharedPreferences, use buttonData
+      loadedData = buttonData.map<Map<String, dynamic>>((item) {
+        return {
+          'name': item['name'],
+          'datetime': DateTime.parse(item['datetime'].toString())
+        };
+      }).toList();
+    }
+
+    // Sort the loaded data by datetime in descending order
     loadedData.sort((a, b) => b['datetime'].compareTo(a['datetime']));
+
+    // Update the state with the sorted data
     setState(() {
       sortedButtonData = loadedData;
-      // sortedButtonData = widget.sortedButtonData;
     });
   }
 

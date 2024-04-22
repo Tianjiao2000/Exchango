@@ -19,7 +19,7 @@ class NotificationService {
   Future<void> initialize() async {
     tz.initializeTimeZones();
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@mipmap/petpat');
     final InitializationSettings initializationSettings =
         InitializationSettings(
       android: initializationSettingsAndroid,
