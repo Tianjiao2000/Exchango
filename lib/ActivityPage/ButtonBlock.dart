@@ -37,7 +37,7 @@ class _ButtonBlockState extends State<ButtonBlock> {
       }
     });
     _loadButtonData(); // load saved info
-    notificationSchedule.initialize();
+    notificationSchedule.initNotification();
   }
 
   Future<void> _scheduleButtonPressNotification(String buttonName) async {
