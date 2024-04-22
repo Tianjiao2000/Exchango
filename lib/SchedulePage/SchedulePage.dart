@@ -13,7 +13,7 @@ class SchedulePage extends StatefulWidget {
 
 class _SchedulePageState extends State<SchedulePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
+// color dot make UI better
   Color getTypeColor(String type) {
     switch (type) {
       case 'play':
@@ -42,7 +42,7 @@ class _SchedulePageState extends State<SchedulePage> {
     //     .sort((a, b) => _getTime(a['time']).compareTo(_getTime(b['time'])));
     loadSchedules();
   }
-
+// load schedule from local
   Future<void> loadSchedules() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String email = _auth.currentUser?.email ?? '';
@@ -57,7 +57,7 @@ class _SchedulePageState extends State<SchedulePage> {
           .sort((a, b) => _getTime(a['time']).compareTo(_getTime(b['time'])));
     });
   }
-
+// after add new schedule save it
   Future<void> saveSchedules() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String email = _auth.currentUser?.email ?? '';
@@ -65,24 +65,25 @@ class _SchedulePageState extends State<SchedulePage> {
         sortedSchedules.map((s) => json.encode(s)).toList();
     await prefs.setStringList('${email}_schedules', schedulesString);
   }
-
+// send notification about schedule
   Future<void> schedulePresetNotifications() async {
     for (var schedule in sortedSchedules) {
       DateTime scheduleDateTime = _getDateTimeForSchedule(schedule['time']);
-      print(
-          'Scheduling notification for: ${schedule['event']} at $scheduleDateTime');
-      print('Current time is: ${DateTime.now()}');
-      print(
-          'Is schedule time after now? ${scheduleDateTime.isAfter(DateTime.now())}');
+      // print(
+      //     'Scheduling notification for: ${schedule['event']} at $scheduleDateTime');
+      // print('Current time is: ${DateTime.now()}');
+      // print(
+      //     'Is schedule time after now? ${scheduleDateTime.isAfter(DateTime.now())}');
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String email = _auth.currentUser?.email ?? '';
+      // get pet name from email
       String petName = prefs.getString('${email}_petName') ?? '';
 
       if (scheduleDateTime.isAfter(DateTime.now())) {
         String notificationMessage =
             "It's time for ${schedule['event']} at ${schedule['location']}. ${petName} is waiting!";
         NotificationService().scheduleNotification(
-          sortedSchedules.indexOf(schedule), // 使用索引作为ID
+          sortedSchedules.indexOf(schedule), // use index as id
           schedule['event'],
           notificationMessage,
           scheduleDateTime,
@@ -109,23 +110,28 @@ class _SchedulePageState extends State<SchedulePage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Schedule',
           style: TextStyle(
-              fontSize: 22.0, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: screenWidth * 0.05,
+              fontWeight: FontWeight.bold,
+              color: Colors.white),
         ),
         backgroundColor: Color.fromARGB(255, 255, 182, 47),
       ),
       backgroundColor: Color.fromARGB(255, 255, 247, 229),
       body: GridView.builder(
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+        padding: EdgeInsets.symmetric(
+            vertical: screenHeight * 0.01, horizontal: screenWidth * 0.03),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 1,
           crossAxisSpacing: 5,
           mainAxisSpacing: 9,
-          childAspectRatio: 9 / 3,
+          childAspectRatio: (screenWidth / 1.45) / (screenHeight / 9),
         ),
         itemCount: sortedSchedules.length,
         itemBuilder: (context, index) {
@@ -285,7 +291,7 @@ class _SchedulePageState extends State<SchedulePage> {
               String notificationMessage =
                   "It's time for ${result['event']} at ${result['location']}. ${petName} is waiting!";
               NotificationService().scheduleNotification(
-                sortedSchedules.indexOf(result), // 使用索引作为通知ID
+                sortedSchedules.indexOf(result), // use index as id
                 result['event'],
                 notificationMessage,
                 scheduleDateTime,

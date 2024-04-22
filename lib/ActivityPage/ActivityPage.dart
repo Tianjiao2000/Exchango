@@ -15,6 +15,7 @@ class ActivityPage extends StatefulWidget {
 }
 
 class _ActivityPageState extends State<ActivityPage> {
+  // firebase and text update parameter
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _petNameController = TextEditingController();
   bool _isEditing = false;
@@ -35,6 +36,7 @@ class _ActivityPageState extends State<ActivityPage> {
     });
   }
 
+  // save to local
   Future<void> savePetInfo() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(
@@ -50,6 +52,7 @@ class _ActivityPageState extends State<ActivityPage> {
     });
   }
 
+// logout clear user info
   Future<void> clearUserInfo() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('userAvatarUrl');
@@ -69,6 +72,7 @@ class _ActivityPageState extends State<ActivityPage> {
 
   @override
   Widget build(BuildContext context) {
+    // sort button data in lastest first
     List<Map<String, dynamic>> sortedButtonData = List.from(buttonData)
       ..sort((a, b) => b['datetime'].compareTo(a['datetime']));
 
@@ -91,12 +95,21 @@ class _ActivityPageState extends State<ActivityPage> {
               children: [
                 Expanded(
                   child: !_isEditing
-                      ? Text("My Name: ${_petNameController.text}")
+                      ? Text(
+                          "My Name: ${_petNameController.text}",
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.04),
+                        )
                       : TextField(
                           controller: _petNameController,
                           decoration: InputDecoration(
                             labelText: 'Edit Pet Name',
                             border: OutlineInputBorder(),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.blueAccent, width: 1.0),
+                            ),
                           ),
                         ),
                 ),

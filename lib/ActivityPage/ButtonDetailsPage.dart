@@ -54,7 +54,7 @@ class _ButtonDetailsPageState extends State<ButtonDetailsPage> {
           date.day == now.day) {
         todayData[name] = (todayData[name] ?? 0) + 1;
       }
-
+      // show time section
       String timeSlot = _getTimeSlot(date);
       buttonsDataByTime[name] ??= {
         'Morning (7am-1pm)': 0,
@@ -125,6 +125,7 @@ class _ButtonDetailsPageState extends State<ButtonDetailsPage> {
   }
 }
 
+// build pie chart for analysis
 Widget _buildPieChart(String title, Map<String, int> data) {
   List<PieChartSectionData> sections = [];
   List<Widget> legends = [];

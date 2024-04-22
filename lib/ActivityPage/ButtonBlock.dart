@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'ButtonDetailsPage.dart';
 import 'button_info.dart';
-import 'mqtt_subscriber.dart';
+import '../api/mqtt_subscriber.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -40,6 +40,7 @@ class _ButtonBlockState extends State<ButtonBlock> {
     notificationSchedule.initNotification();
   }
 
+// send notification when button pressed
   Future<void> _scheduleButtonPressNotification(String buttonName) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String email = FirebaseAuth.instance.currentUser?.email ?? '';
@@ -93,6 +94,7 @@ class _ButtonBlockState extends State<ButtonBlock> {
     });
   }
 
+// when presee button, load them in UI
   void _addButtonData(String name) async {
     final now = DateTime.now();
     setState(() {
