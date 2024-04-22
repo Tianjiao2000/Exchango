@@ -45,6 +45,8 @@ dependencies:
   # firebase_ui_auth: ^1.13.1
   image_picker: ^1.0.7
   fl_chart: ^0.67.0
+  permission_handler: ^11.3.1
+  flutter_background_service: ^5.0.5
 
 dev_dependencies:
   flutter_test:

@@ -131,10 +131,16 @@ class StartPage extends StatelessWidget {
       }
 
       // Email is verified, proceed with login
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => BottomNavigation()),
-      );
+      if (user != null && user.emailVerified) {
+        // save login status
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true);
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => BottomNavigation()),
+        );
+      }
     } on FirebaseAuthException catch (e) {
       String errorMessage =
           'Please enter your email and password.'; // Default error message

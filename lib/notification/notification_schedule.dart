@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:permission_handler/permission_handler.dart';
 
 class NotificationService {
   static final NotificationService _notificationService =
@@ -34,6 +36,38 @@ class NotificationService {
     );
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  }
+
+  Future<void> checkNotificationPermission(BuildContext context) async {
+    final isGranted = await Permission.notification.isGranted;
+    if (!isGranted) {
+      final result = await Permission.notification.request();
+      if (result.isDenied) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('Notification Permission'),
+            content: const Text(
+                'This app needs notification permission to function correctly. Please enable it in settings.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Settings'),
+                onPressed: () {
+                  openAppSettings();
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+              ),
+              TextButton(
+                child: const Text('Cancel'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+              ),
+            ],
+          ),
+        );
+      }
+    }
   }
 
   Future<void> scheduleNotification(

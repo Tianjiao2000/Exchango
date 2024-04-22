@@ -7,6 +7,8 @@ import 'notification/notification_schedule.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'ActivityPage/button_info.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'notification/notification_schedule.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +34,11 @@ void main() async {
   // NotificationSchedule().initNotification();
   await NotificationService().initNotification();
 
-  runApp(MyApp());
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+  // runApp(MyApp());
+  runApp(MyApp(isLoggedIn: isLoggedIn));
 }
 
 void _configureStaticTimeZone() {
@@ -41,11 +47,33 @@ void _configureStaticTimeZone() {
   tz.setLocalLocation(location);
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+Future<void> checkNotificationPermission(BuildContext context) async {
+  final notificationService = NotificationService();
+  await notificationService.checkNotificationPermission(context);
+}
+
+class MyApp extends StatefulWidget {
+  final bool isLoggedIn;
+
+  MyApp({required this.isLoggedIn});
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkNotificationPermission(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: StartPage());
+    return MaterialApp(
+      home: widget.isLoggedIn ? BottomNavigation() : StartPage(),
+    );
   }
 }
