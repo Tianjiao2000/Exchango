@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "696675160605",
+    "project_id": "ce-mobile-b600c",
+    "storage_bucket": "ce-mobile-b600c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:696675160605:android:edeed03959a0f0f7a9ecf4",
+        "android_client_info": {
+          "package_name": "com.example.flutter_demo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpsAzONHEnxcg7yn78z63xJQfmtp__dik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

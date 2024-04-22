@@ -9,7 +9,7 @@ class HumidityBlock extends StatefulWidget {
 
 class _HumidityBlockState extends State<HumidityBlock> {
   final MQTTService _mqttService = MQTTService(); // use same mqtt serivce
-  String humidity = 'Waiting for humidity...';
+  String humidity = 'Waiting...';
   late StreamSubscription<String> _humiditySubscription; // add subcription
 
   @override

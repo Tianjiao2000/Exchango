@@ -76,6 +76,7 @@ class _ActivityPageState extends State<ActivityPage> {
       appBar: AppBar(
         title: Text(
           'Monitor',
+          textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: 22.0, fontWeight: FontWeight.bold, color: Colors.white),
         ),

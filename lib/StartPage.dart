@@ -4,10 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 import 'navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'ActivityPage/button_info.dart';
 
 class StartPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,15 @@ class StartPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text('Login', style: TextStyle(color: Colors.black)),
+          title: Text(
+            'Login',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 22.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
           backgroundColor: commonColor),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

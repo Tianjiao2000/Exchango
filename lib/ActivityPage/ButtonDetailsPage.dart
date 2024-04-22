@@ -3,6 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'button_info.dart';
 
 class ButtonDetailsPage extends StatefulWidget {
   @override
@@ -25,8 +26,16 @@ class _ButtonDetailsPageState extends State<ButtonDetailsPage> {
   Future<void> _initializeData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String email = FirebaseAuth.instance.currentUser?.email ?? '';
-    String storedData = prefs.getString('${email}_buttonData') ?? '[]';
-    List<dynamic> jsonData = json.decode(storedData);
+    String? storedData = prefs.getString('${email}_buttonData');
+    // List<dynamic> jsonData = json.decode(storedData!);
+    // same as button load, if there is local value load them, if not load button_info
+    // to avoid empty section
+    List<dynamic> jsonData;
+    if (storedData != null) {
+      jsonData = json.decode(storedData);
+    } else {
+      jsonData = buttonData; // Use buttonData as a fallback
+    }
 
     DateTime now = DateTime.now();
     allTimeData = {};
@@ -35,7 +44,9 @@ class _ButtonDetailsPageState extends State<ButtonDetailsPage> {
 
     for (var data in jsonData) {
       String name = data['name'];
-      DateTime date = DateTime.parse(data['datetime']);
+      DateTime date = storedData == null
+          ? data['datetime']
+          : DateTime.parse(data['datetime']);
       allTimeData[name] = (allTimeData[name] ?? 0) + 1;
 
       if (date.year == now.year &&

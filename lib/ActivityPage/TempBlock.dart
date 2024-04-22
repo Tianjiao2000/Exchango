@@ -10,7 +10,7 @@ class TempBlock extends StatefulWidget {
 
 class _TempBlockState extends State<TempBlock> {
   final MQTTService _mqttService = MQTTService();
-  String temperature = 'Waiting for temperature...';
+  String temperature = 'Waiting ...';
   late StreamSubscription<String> _temperatureSubscription;
 
   @override
