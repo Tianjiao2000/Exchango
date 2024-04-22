@@ -72,11 +72,12 @@ class _ActivityPageState extends State<ActivityPage> {
 
   @override
   Widget build(BuildContext context) {
-    // sort button data in lastest first
+    double screenHeight = MediaQuery.of(context).size.height;
     List<Map<String, dynamic>> sortedButtonData = List.from(buttonData)
       ..sort((a, b) => b['datetime'].compareTo(a['datetime']));
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           'Monitor',
@@ -87,103 +88,81 @@ class _ActivityPageState extends State<ActivityPage> {
         backgroundColor: Color.fromARGB(255, 255, 182, 47),
       ),
       backgroundColor: Color.fromARGB(255, 255, 247, 229),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: [
-                Expanded(
-                  child: !_isEditing
-                      ? Text(
-                          "My Name: ${_petNameController.text}",
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.04),
-                        )
-                      : TextField(
-                          controller: _petNameController,
-                          decoration: InputDecoration(
-                            labelText: 'Edit Pet Name',
-                            border: OutlineInputBorder(),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.blueAccent, width: 1.0),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          child: Column(
+            children: <Widget>[
+              Row(
+                children: [
+                  Expanded(
+                    child: !_isEditing
+                        ? Text("My Name: ${_petNameController.text}",
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.04))
+                        : TextField(
+                            controller: _petNameController,
+                            decoration: InputDecoration(
+                              labelText: 'Edit Pet Name',
+                              border: OutlineInputBorder(),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.blueAccent, width: 1.0),
+                              ),
                             ),
                           ),
-                        ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: toggleEdit,
-                ),
-                if (_isEditing)
-                  ElevatedButton(
-                    onPressed: savePetInfo,
-                    child: Text("Save"),
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.blue,
+                  ),
+                  IconButton(icon: Icon(Icons.edit), onPressed: toggleEdit),
+                  if (_isEditing)
+                    ElevatedButton(
+                      onPressed: savePetInfo,
+                      child: Text("Save"),
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.blue,
+                      ),
                     ),
-                  ),
-              ],
-            ),
-            Flexible(
-              flex: 10,
-              child: ButtonBlock(sortedButtonData: sortedButtonData),
-            ),
-            Flexible(
-              flex: 1,
-              child: Container(),
-            ),
-            Flexible(
-              flex: 3,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: TempBlock(),
-                  ),
-                  SizedBox(width: 15),
-                  Expanded(
-                    child: HumidityBlock(),
-                  ),
                 ],
               ),
-            ),
-            Flexible(
-              flex: 1,
-              child: Container(),
-            ),
-            Flexible(
-              flex: 3,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: SoundBlock(),
-                  ),
-                  SizedBox(width: 15),
-                  Expanded(
-                    child: LightBlock(),
-                  ),
-                ],
+              SizedBox(height: screenHeight * 0.005),
+              Container(
+                height: screenHeight * 0.4,
+                child: ButtonBlock(sortedButtonData: sortedButtonData),
               ),
-            ),
-            Flexible(
-              flex: 1,
-              child: Container(),
-            ),
-            Flexible(
-              flex: 3,
-              child: ElevatedButton(
+              SizedBox(height: screenHeight * 0.025),
+              Container(
+                height: screenHeight * 0.125,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(child: TempBlock()),
+                    SizedBox(width: 15),
+                    Expanded(child: HumidityBlock()),
+                  ],
+                ),
+              ),
+              SizedBox(height: screenHeight * 0.025),
+              Container(
+                height: screenHeight * 0.125,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(child: SoundBlock()),
+                    SizedBox(width: 15),
+                    Expanded(child: LightBlock()),
+                  ],
+                ),
+              ),
+              SizedBox(height: screenHeight * 0.025),
+              ElevatedButton(
                 onPressed: () => logout(context),
                 child: Text("Logout"),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
-                  backgroundColor: Colors.red, // Text color
+                  backgroundColor: Colors.red,
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
