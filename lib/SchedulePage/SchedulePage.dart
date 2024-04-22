@@ -35,7 +35,7 @@ class _SchedulePageState extends State<SchedulePage> {
   void initState() {
     super.initState();
     // NotificationSchedule().initNotification();
-    NotificationService().initialize();
+    NotificationService().initNotification();
     schedulePresetNotifications();
     // sortedSchedules = List.from(schedules);
     // sortedSchedules

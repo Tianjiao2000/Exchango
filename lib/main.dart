@@ -30,7 +30,7 @@ void main() async {
 
   // Initialize notifications
   // NotificationSchedule().initNotification();
-  await NotificationService().initialize();
+  await NotificationService().initNotification();
 
   runApp(MyApp());
 }
