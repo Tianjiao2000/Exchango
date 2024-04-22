@@ -9,7 +9,6 @@ import 'ActivityPage/button_info.dart';
 class StartPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +137,7 @@ class StartPage extends StatelessWidget {
       );
     } on FirebaseAuthException catch (e) {
       String errorMessage =
-          'An error occurred. Please try again.'; // Default error message
+          'Please enter your email and password.'; // Default error message
       switch (e.code) {
         case 'invalid-credential':
           // case 'wrong-password': // Adding specific case for wrong password
@@ -196,7 +195,7 @@ class StartPage extends StatelessWidget {
         );
       }
     } on FirebaseAuthException catch (e) {
-      String errorMessage = 'An error occurred. Please try again.';
+      String errorMessage = 'Please enter your email and password.';
       if (e.code == 'weak-password') {
         errorMessage = 'The password provided is too weak.';
       } else if (e.code == 'email-already-in-use') {
@@ -226,7 +225,7 @@ class StartPage extends StatelessWidget {
       // Error occurred
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error occurred. Please try again.'),
+          content: Text('Please enter your email.'),
         ),
       );
       print("Password reset failed: $e");
