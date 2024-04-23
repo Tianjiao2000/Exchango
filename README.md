@@ -13,9 +13,16 @@ Discover what your pet really wants—analyze button presses and environmental d
 PetPat is an innovative app designed to enhance pet care through technology. Inspired by the need to simplify the tracking of pets' needs, PetPat automates the recording of button presses and environmental data to help pet owners understand their pets better. With PetPat, discover which buttons your pet presses the most and under which conditions, allowing for a deeper connection and more tailored care.
 
 ## Website
-Landing page: https://wbe2.getresponse.com/lps/b7847547-c55f-44f2-8c66-a91e09c36613/edit/
+Landing page: [https://wbe2.getresponse.com/lps/b7847547-c55f-44f2-8c66-a91e09c36613/edit/](https://tianjiao2000.github.io/PetPat/)
 
 YouTube demo video: https://www.youtube.com/watch?v=mtMKdf3VJa4
+
+## User Persona
+
+- For people who WFH: Occupied with online meetings, review the button history in PetPat to understand what BunBun needed, ensuring well-cared for without disrupting from working.
+- For owner who monitoring pet's weight: monitor FuFu’s feeding requests and analyze patterns with the help of pie charts and history logs. Adjust feeding schedules based on when FuFu feels hungry most often, optimizing their diet.
+- Old dog: If Charlie feels unwell during the night, he will press the ‘pain’ button. Upon guardian waking, they can immediately review history in PetPat and take timely action to ensure Charlie’s health and comfort.
+- Unpredictable cat: Doris's owner uses PetPat to understand her preferences better. When the light sensor reads high and Doris presses the 'outdoor', she enjoys the sunshine! If a car noise triggers her to press 'noise' and 'pain,’ she prefer quiet.
 
 ## Features
 
@@ -74,11 +81,14 @@ Please see the Release in the left bar and select the newest version to run.
 ### iOS
 iOS version currently hasn't been released yet, please run it on iOS simulator. iOS simulator has exactly the same features as the android version.
 
+<img width="300" alt="Screenshot 2024-04-23 at 14 54 15" src="https://github.com/Tianjiao2000/PetPat/assets/73406569/73317381-f596-432d-b88f-5e1fc73677cc"><img width="300" alt="Screenshot 2024-04-23 at 14 50 19" src="https://github.com/Tianjiao2000/PetPat/assets/73406569/69c3ebda-246c-43cb-956d-1e92a2851915"><img width="300" alt="Screenshot 2024-04-23 at 14 52 44" src="https://github.com/Tianjiao2000/PetPat/assets/73406569/a87d751b-c4a6-450f-b03b-2f6ef660abe6">
+
 ## Dependencies
 <img width="506" alt="Screenshot 2024-04-23 at 01 06 29" src="https://github.com/Tianjiao2000/PetPat/assets/73406569/a4bf0bf5-e9bb-41f8-aac1-782281d85389">
 
 ##  License
 This project is licensed under the MIT License.
 
+##  Contact
 Feel free to contact me if you have any questions or if you want to contribute to the app.
 Email: tianjiao.wang.23@ucl.ac.uk
