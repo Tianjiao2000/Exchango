@@ -72,7 +72,7 @@ Prerequisites: Install Flutter and set up your development environment.
 ### Android
 Please see the Release in the left bar and select the newest version to run.
 ### iOS
-iOS version currently hasn't been released yet, please run on iOS simulator. iOS simulator has exactly the same features with the android version.
+iOS version currently hasn't been released yet, please run it on iOS simulator. iOS simulator has exactly the same features as the android version.
 
 ## Dependencies
 <img width="506" alt="Screenshot 2024-04-23 at 01 06 29" src="https://github.com/Tianjiao2000/PetPat/assets/73406569/a4bf0bf5-e9bb-41f8-aac1-782281d85389">
@@ -82,5 +82,3 @@ This project is licensed under the MIT License.
 
 Feel free to contact me if you have any questions or if you want to contribute to the app.
 Email: tianjiao.wang.23@ucl.ac.uk
-
-APIs and Libraries
