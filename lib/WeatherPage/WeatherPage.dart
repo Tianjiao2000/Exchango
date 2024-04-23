@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import '../api/OpenWeatherMap.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import '../api/LocationService.dart';
 
 class WeatherPage extends StatefulWidget {
@@ -35,6 +33,8 @@ class _WeatherPageState extends State<WeatherPage> {
             apiKey: '76ebb83681279eea1a7c0dbecba1c26e', // API key
             latitude: _currentPosition!.latitude,
             longitude: _currentPosition!.longitude);
+        // latitude: 121,
+        // longitude: 221);
         loadForecastData();
         loadAirQuality();
         loadWeatherData();
@@ -47,6 +47,7 @@ class _WeatherPageState extends State<WeatherPage> {
   void loadForecastData() async {
     try {
       forecastData = (await weatherApi?.getThreeHourForecast())!;
+      print(forecastData);
       setState(() {});
     } catch (e) {
       print('Failed to load forecast data: $e');
@@ -74,16 +75,18 @@ class _WeatherPageState extends State<WeatherPage> {
 
 // make app more fun
   String getAirQualityDescription(int aqi) {
-    if (aqi <= 50) {
+    if (aqi == 1) {
       return 'Good! Let\'s play outside!';
-    } else if (aqi <= 100) {
+    } else if (aqi == 2) {
       return 'Fair, good to play outside!';
-    } else if (aqi <= 150) {
+    } else if (aqi == 3) {
       return 'Moderate, it\'s Okay to play outside.';
-    } else if (aqi <= 200) {
+    } else if (aqi == 4) {
       return 'Poor, maybe I\'m not really want to play outside?';
-    } else {
+    } else if (aqi == 5) {
       return 'Very poor, it would be great not to go outside!';
+    } else {
+      return 'Some error happens, try again later.';
     }
   }
 
