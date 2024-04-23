@@ -79,12 +79,14 @@ class _WeatherPageState extends State<WeatherPage> {
       return 'Good! Let\'s play outside!';
     } else if (aqi == 2) {
       return 'Fair, good to play outside!';
-    } else if (aqi <= 150) {
+    } else if (aqi == 3) {
       return 'Moderate, it\'s Okay to play outside.';
-    } else if (aqi <= 200) {
+    } else if (aqi == 4) {
       return 'Poor, maybe I\'m not really want to play outside?';
-    } else {
+    } else if (aqi == 5) {
       return 'Very poor, it would be great not to go outside!';
+    } else {
+      return 'Some error happens, try again later.';
     }
   }
 
