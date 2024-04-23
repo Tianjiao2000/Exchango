@@ -15,12 +15,14 @@ class OpenWeatherMapAPI {
     var url = Uri.parse(
         'http://api.openweathermap.org/data/2.5/air_pollution?lat=$latitude&lon=$longitude&appid=$apiKey');
     var response = await http.get(url);
+
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       return {
         'aqi': data['list'][0]['main']['aqi'],
       };
     } else {
+      print(response);
       throw Exception(
           'Failed to load air quality data with status: ${response.statusCode}');
     }
